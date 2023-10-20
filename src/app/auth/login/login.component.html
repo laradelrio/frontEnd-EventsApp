@@ -1,1 +1,33 @@
-<p>login works!</p>
+<div class=" main d-flex flex-wrap col">
+   
+    <div class="h-100 formReg d-flex flex-wrap align-self-start">
+        <div>
+            <img src="../../../assets/event.svg" height="75px"  class="w-100 mt-1 mb-5">
+
+            <div class='d-flex row p-5 pt-lg-2 m-lg-5' id="form-div">
+                <h1 class="mb-5"> Log In </h1>
+                <form [formGroup]="loginForm" 
+                class="form-group d-flex row pb-1" (ngSubmit)="onSubmit()">
+                    <div *ngFor='let input of signInForm' class='mb-3'>
+                        <label [for]="input.name" class="pb-1">{{input.label}}</label>
+                        <input [formControlName]="input.name" [type]="input.type" class="form-control"
+                        [ngClass]="!isValidInput(input.name) ? 'form-control' : 'form-control is-invalid'"> 
+                        <p *ngIf="isValidInput(input.name)" class="text-danger form-text">{{getInputError(input.name)}}</p>
+                    </div>
+                    <p class = 'text-danger w-100 text-center'> {{registerErrorMsg}}</p>
+                    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                </form>
+
+                <p class="text-center pt-4">Don't have an account yet?<a class="text-black" routerLink="/register">Sign In</a></p>
+            </div> 
+        </div>
+    </div> 
+   
+    <div class="w-50 h-100 textReg">
+        <div class="dot4"></div>
+        <div class="dot5"></div>
+        <div class="dot6"></div>
+    </div>
+</div>
+
+

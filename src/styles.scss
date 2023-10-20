@@ -6,5 +6,23 @@ $secondary:rgb(255, 60, 20);
 body{
     font-family: 'League Spartan', sans-serif;
 }
+
+/*SCROLLBAR*/
+/* width */
+::-webkit-scrollbar {
+    width: 20px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+    background: #ffff;      
+}  
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom right, #541690, #ff3c14); 
+    border-radius: 10px;
+}
+
+
+
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';

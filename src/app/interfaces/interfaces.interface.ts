@@ -10,3 +10,8 @@ export interface Form {
     label: string,
     type: string,
 }
+
+export interface ApiResp {
+    status: boolean;
+    message: string;
+}

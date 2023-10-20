@@ -5,21 +5,27 @@
         <div class="dot3"></div>
     </div>
 
-    <div class="h-100 formReg d-flex flex-wrap align-items-center">
+    <div class="h-100 formReg d-flex flex-wrap align-self-start">
         <div>
-        <img src="../../../assets/event.svg" height="75px"  class="w-100 mt-3">
+            <img src="../../../assets/event.svg" height="75px"  class="w-100 mt-1">
 
-        <div class='d-flex row p-5 m-lg-5 p-3 p-3'>
-            <h1 class="mb-5"> Sign Up </h1>
-            <form [formGroup]="registerForm" *ngFor='let input of signUpForm'
-            class="form-group d-flex row pb-3" (ngSubmit)="onSubmit()">
-                <label [for]="input.name" class="pb-1">{{input.label}}</label>
-                <input [formControlName]="input.name" [type]="input.type" class="form-control">
-            </form>
-            <button type="submit" class="btn btn-primary mt-3">Submit</button>
-            <p class="text-center pt-4">Already have an Account? <a class="text-black" routerLink="/login">Log In</a></p>
-        </div> 
-    </div>
+            <div class='d-flex row w-100 p-5 pt-lg-2 pb-0 mb-lg-0 mt-lg-5' id="form-div">
+                <h1 class="mb-5"> Sign Up </h1>
+                <form [formGroup]="registerForm" 
+                class="form-group d-flex row pb-1" (ngSubmit)="onSubmit()">
+                    <div *ngFor='let input of signUpForm' class='mb-3'>
+                        <label [for]="input.name" class="pb-1">{{input.label}}</label>
+                        <input [formControlName]="input.name" [type]="input.type" class="form-control"
+                        [ngClass]="!isValidInput(input.name) ? 'form-control' : 'form-control is-invalid'"> 
+                        <p *ngIf="isValidInput(input.name)" class="text-danger form-text">{{getInputError(input.name)}}</p>
+                    </div>
+                    <p class = 'text-danger w-100 text-center'> {{registerErrorMsg}}</p>
+                    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                </form>
+
+                <p class="text-center pt-4">Already have an Account? <a class="text-black" routerLink="/login">Log In</a></p>
+            </div> 
+        </div>
     </div>
 </div>
 
