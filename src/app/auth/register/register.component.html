@@ -1,1 +1,25 @@
-<p>register works!</p>
+<div class=" main d-flex flex-wrap col">
+    <div class="w-50 h-100 textReg">
+        <div class="dot"></div>
+        <div class="dot2"></div>
+        <div class="dot3"></div>
+    </div>
+
+    <div class="h-100 formReg d-flex flex-wrap align-items-center">
+        <div>
+        <img src="../../../assets/event.svg" height="75px"  class="w-100 mt-3">
+
+        <div class='d-flex row p-5 m-lg-5 p-3 p-3'>
+            <h1 class="mb-5"> Sign Up </h1>
+            <form [formGroup]="registerForm" *ngFor='let input of signUpForm'
+            class="form-group d-flex row pb-3" (ngSubmit)="onSubmit()">
+                <label [for]="input.name" class="pb-1">{{input.label}}</label>
+                <input [formControlName]="input.name" [type]="input.type" class="form-control">
+            </form>
+            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+            <p class="text-center pt-4">Already have an Account? <a class="text-black" routerLink="/login">Log In</a></p>
+        </div> 
+    </div>
+    </div>
+</div>
+
