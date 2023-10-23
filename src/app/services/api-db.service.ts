@@ -23,12 +23,14 @@ export class ApiDbService {
     return this.http.post<JWT>(`${this.baseUrl}/users/login`, loginForm.value);
   }
 
+  //collect token and send status
   async isValidToken(){
     const token$ = this.validateToken();
     const tokenAnswer = await lastValueFrom(token$);
-     return tokenAnswer.status
+    return tokenAnswer.status
   }
 
+  //get token status
   validateToken(): Observable<ApiResp>{
       let tokenJwt =  localStorage.getItem('token');
       return this.http.post<ApiResp>(`${this.baseUrl}/users/validateToken`, {token: tokenJwt});

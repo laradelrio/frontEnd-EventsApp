@@ -1,35 +1,46 @@
-<nav class="navbar navbar-expand-lg bg-light">
+<nav class="navbar navbar-expand-lg ">
     <div class="container-fluid ms-lg-5 me-lg-5">
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
           <span class="navbar-toggler-icon"></span>
       </button>
 
-      <a class="navbar-brand" routerLink="/home">EventsApp</a>
+      <a class="navbar-brand" routerLink="/home"><img src="../../../assets/event.svg" height="50px"></a>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <a class="nav-link active text-primary" aria-current="page" href="#">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/map">Map</a>
+            <a class="nav-link text-primary" routerLink="/map">Map</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/calendar">Calendar</a>
+            <a class="nav-link text-primary"routerLink="/calendar">Calendar</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="graphics">Graphics</a>
+            <a class="nav-link text-primary" routerLink="graphics">Graphics</a>
           </li>
         </ul>
 
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+        <button *ngIf="!isLoggedIn" class="btn bg-primary text-white" routerLink="/login">Log In</button>
 
-        <button class="btn" routerLink="/login">Log In</button>
+        <!-- Example split danger button -->
+          <div *ngIf="isLoggedIn"  class="btn-group">
+            <button type="button" class="btn btn-primary">My Account</button>
+            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+              <span class="visually-hidden">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">My Events</a></li>
+              <li><a class="dropdown-item" href="#">Edit Profile</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><button class="dropdown-item" (click)="logOut()">Log Out</button></li>
+            </ul>
+          </div>
+
+       
 
       </div>
     </div>
