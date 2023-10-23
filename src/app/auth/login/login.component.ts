@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
-import { Form } from 'src/app/interfaces/interfaces.interface';
+import { ApiResp, Form, JWT } from 'src/app/interfaces/interfaces.interface';
 import { ApiDbService } from 'src/app/services/api-db.service';
 
 @Component({
@@ -12,8 +12,9 @@ import { ApiDbService } from 'src/app/services/api-db.service';
 })
 export class LoginComponent {
 
-  registerErrorMsg: string ="";
+  loginErrorMsg: string ="";
   respStatus: boolean = false;
+  response: JWT = {};
 
   signInForm: Form[] = [
     { name: 'email', label: 'Email Address',type: 'email' },
@@ -41,18 +42,25 @@ export class LoginComponent {
   }
 
   onSubmit(){
+    (console.log(this.loginForm.value))
+    
     if(this.loginForm.valid){
-      console.log("hello", this.loginForm.value)
       this.apiDbService.loginUser(this.loginForm)
       .pipe(
         finalize(()=>{
-          if(this.respStatus){
-            this.router.navigate(['/login'])
+          if(this.response.data !== undefined ){
+            localStorage.setItem("token", this.response.data.token)
+            this.router.navigate(['/home']);    
+          }else{
+            if(this.response.message !== undefined){
+              this.loginErrorMsg = this.response.message;
+            }
+            
           }
         })       
       )
       .subscribe({
-        next: (resp) => (this.registerErrorMsg = resp.message, this.respStatus = resp.status), 
+        next: (resp) => (this.response = resp ), 
         error: (error) => (console.error('error', error))
       });
     }else{

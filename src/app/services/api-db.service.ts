@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ApiResp } from '../interfaces/interfaces.interface';
-import { Observable } from 'rxjs';
+import { ApiResp, JWT } from '../interfaces/interfaces.interface';
+import { Observable, finalize, lastValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +19,19 @@ export class ApiDbService {
     return this.http.post<ApiResp>(`${this.baseUrl}/users/add`, registerForm.value);
   }
 
-  loginUser(loginForm: FormGroup): Observable<ApiResp>{
-    return this.http.post<ApiResp>(`${this.baseUrl}/users/login`, loginForm.value);
+  loginUser(loginForm: FormGroup): Observable<JWT>{
+    return this.http.post<JWT>(`${this.baseUrl}/users/login`, loginForm.value);
+  }
+
+  async isValidToken(){
+    const token$ = this.validateToken();
+    const tokenAnswer = await lastValueFrom(token$);
+     return tokenAnswer.status
+  }
+
+  validateToken(): Observable<ApiResp>{
+      let tokenJwt =  localStorage.getItem('token');
+      return this.http.post<ApiResp>(`${this.baseUrl}/users/validateToken`, {token: tokenJwt});
   }
   
   getInputError(input: string, form: FormGroup): string{
