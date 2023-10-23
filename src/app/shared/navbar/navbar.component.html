@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg ">
+<nav class="navbar navbar-expand-lg" height="100px">
     <div class="container-fluid ms-lg-5 me-lg-5">
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
@@ -26,7 +26,7 @@
 
         <button *ngIf="!isLoggedIn" class="btn bg-primary text-white" routerLink="/login">Log In</button>
 
-        <!-- Example split danger button -->
+        
           <div *ngIf="isLoggedIn"  class="btn-group">
             <button type="button" class="btn btn-primary">My Account</button>
             <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
@@ -34,7 +34,7 @@
             </button>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="#">My Events</a></li>
-              <li><a class="dropdown-item" href="#">Edit Profile</a></li>
+              <li><a class="dropdown-item" routerLink="/myaccount">My Profile</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><button class="dropdown-item" (click)="logOut()">Log Out</button></li>
             </ul>
