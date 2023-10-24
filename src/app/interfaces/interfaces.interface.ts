@@ -26,3 +26,17 @@ export interface JWT {
 export interface Data{
     token: string
 }
+
+export interface DecodedToken{
+    iat: number;
+    id_user: number; 
+}
+
+export interface UserData{
+    data: {
+        email: string;
+        image?: Blob;
+        username: string;
+    };
+    status: boolean;
+}

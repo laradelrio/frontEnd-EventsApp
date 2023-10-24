@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ApiResp, JWT } from '../interfaces/interfaces.interface';
+import { ApiResp, DecodedToken, JWT, UserData } from '../interfaces/interfaces.interface';
 import { Observable, finalize, lastValueFrom } from 'rxjs';
+import jwt_decode from "jwt-decode";
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +36,23 @@ export class ApiDbService {
       let tokenJwt =  localStorage.getItem('token');
       return this.http.post<ApiResp>(`${this.baseUrl}/users/validateToken`, {token: tokenJwt});
   }
+
+  getUserId(): number{
+    let tokenJwt = localStorage.getItem('token') || "";
+    let decodedToken: DecodedToken = jwt_decode(tokenJwt);
+    return decodedToken.id_user;
+  }
+
+  getUser(): Observable<UserData>{
+    let userId: number = this.getUserId();
+    return this.http.get<UserData>(`${this.baseUrl}/users/user/${userId}`);
+  }
   
+  updateUser(updatedInfo: FormGroup): Observable<ApiResp>{
+    let userId:number = this.getUserId();
+    return this.http.put<ApiResp>(`${this.baseUrl}/users/update/${userId}`, updatedInfo.value);
+  }
+
   getInputError(input: string, form: FormGroup): string{
     let errors =  form.controls[input].errors  || {};
     let errorMessage: string = ""
