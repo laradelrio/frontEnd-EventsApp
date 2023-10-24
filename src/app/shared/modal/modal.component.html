@@ -1,15 +1,12 @@
 <div >
     <div class="modal-header">
-        <h4 class="modal-title">Lorem ipsum dolor sit.</h4>
-    </div>
+		<h4 class="modal-title" id="modal-basic-title">{{modalTitle}}</h4>
+		<!-- <button type="button" class="btn-close" aria-label="Close" (click)="cancel()"></button> -->
+	</div>
 
-    <div class="modal-body">
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis debitis voluptates aspernatur? Quis ut architecto, officia eaque labore unde sed cupiditate molestias, provident repellendus voluptatibus odio numquam, perspiciatis quisquam dolores? <br><br>
-        Lorem ipsum dolor sit amet.
-    </div>
-
-
-    <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="close()">Ok!</button>
+    <div class="modal-body"> {{modalMessage}} </div>
+    <div class="d-flex justify-content-end m-3">
+        <button type="button" class="btn btn-success me-3" (click)="confirm()">{{confirmBtnName}}</button>
+        <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
     </div>
 </div>

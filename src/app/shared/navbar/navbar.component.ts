@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { ApiDbService } from 'src/app/services/api-db.service';
 
 @Component({
@@ -12,6 +13,7 @@ export class NavbarComponent {
 
   constructor(
     private apiDbService: ApiDbService,
+    private router: Router,
   ){
     this.isLoggedInF();
   }
@@ -26,5 +28,6 @@ export class NavbarComponent {
   logOut(): void{
     localStorage.removeItem('token');
     this.isLoggedInF()
+    this.router.navigate(['/home']);
   }
 }

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ApiResp, DecodedToken, JWT, UserData } from '../interfaces/interfaces.interface';
+import { ApiResp, DecodedToken, JWT, Modal, UserData } from '../interfaces/interfaces.interface';
 import { Observable, finalize, lastValueFrom } from 'rxjs';
 import jwt_decode from "jwt-decode";
 
@@ -11,10 +11,21 @@ import jwt_decode from "jwt-decode";
 export class ApiDbService {
 
   baseUrl: string = `http://localhost:8080/api`;
+  modalInfo: Modal = {
+    name: '',
+    title: '',
+    msg: '',
+    confirmBtnName: '',
+  };
+ 
 
   constructor(
     private http: HttpClient,
   ) { }
+
+  setModal(modalInfo: Modal): void{
+    this.modalInfo = modalInfo; 
+  }
 
   registerUser(registerForm: FormGroup): Observable<ApiResp>{
     return this.http.post<ApiResp>(`${this.baseUrl}/users/add`, registerForm.value);
@@ -51,6 +62,11 @@ export class ApiDbService {
   updateUser(updatedInfo: FormGroup): Observable<ApiResp>{
     let userId:number = this.getUserId();
     return this.http.put<ApiResp>(`${this.baseUrl}/users/update/${userId}`, updatedInfo.value);
+  }
+
+  deleteUser(): Observable<ApiResp>{
+    let userId:number = this.getUserId();
+    return this.http.delete<ApiResp>(`${this.baseUrl}/users/delete/${userId}`)
   }
 
   getInputError(input: string, form: FormGroup): string{

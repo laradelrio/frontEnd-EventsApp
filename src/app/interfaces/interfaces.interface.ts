@@ -40,3 +40,9 @@ export interface UserData{
     };
     status: boolean;
 }
+export interface Modal{
+    name: string;
+    title: string;
+    msg: string;
+    confirmBtnName: string;
+}
