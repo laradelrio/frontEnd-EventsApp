@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Form } from 'src/app/interfaces/interfaces.interface';
 import { ApiDbService } from 'src/app/services/api-db.service';
+import { ModalComponent } from 'src/app/shared/modal/modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -23,13 +25,18 @@ export class AccountComponent implements OnInit{
 
   constructor( 
     private fb: FormBuilder,
-    private apiDbService: ApiDbService
+    private apiDbService: ApiDbService,
+    private ngBmodal: NgbModal,
   ){
     this.accountForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
     })
   }
+
+  openModal(): void {
+    this.ngBmodal.open(ModalComponent, { centered: true });
+  };
 
   ngOnInit(): void {
     this.accountForm.disable()
@@ -60,9 +67,6 @@ export class AccountComponent implements OnInit{
     this.getUserAccountDetails();
 
   }
-
-
-
   onEdit():void{
     this.isEditable = true;
     this.accountForm.enable()
@@ -73,6 +77,9 @@ export class AccountComponent implements OnInit{
     this.accountForm.disable();
     this.apiDbService.getUser();
     this.getUserAccountDetails();
+    this.openModal();
   }
   
 }
+
+
