@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AccountComponent } from './pages/account/account.component';
 import { ModalComponent } from './shared/modal/modal.component';
+import { PasswordUpdateComponent } from './pages/account/password-update/password-update.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ModalComponent } from './shared/modal/modal.component';
     LoginComponent,
     RegisterComponent,
     AccountComponent,
-    ModalComponent
+    ModalComponent,
+    PasswordUpdateComponent
   ],
   imports: [
     BrowserModule,

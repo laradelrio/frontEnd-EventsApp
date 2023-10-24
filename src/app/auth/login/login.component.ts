@@ -41,9 +41,7 @@ export class LoginComponent {
     return this.apiDbService.getInputError(field, this.loginForm);
   }
 
-  onSubmit(){
-    (console.log(this.loginForm.value))
-    
+  onSubmit(){   
     if(this.loginForm.valid){
       this.apiDbService.loginUser(this.loginForm)
       .pipe(
@@ -70,6 +68,4 @@ export class LoginComponent {
       })
     }
   }
-
-
 }

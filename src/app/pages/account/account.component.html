@@ -22,8 +22,14 @@
             <button *ngIf="isEditable" type="submit" class="btn btn-primary mt-3">Submit</button>
         </form>
 
-        <h6 class="mt-5 mb-2">Password Change</h6>
-        <button class="btn border-primary">Change Password</button>
+        <div class=" d-flex justify-content-between">
+            <h6 class="mt-5 mb-2">Password Change</h6>
+            <button *ngIf="isPasswordUpdate" class=" btn bg-white border-primary mt-5" (click)="onCancelUpdatePwrd()">
+                Cancel
+            </button>
+        </div>
+        <app-password-update *ngIf="isPasswordUpdate" ></app-password-update>
+        <button *ngIf="!isPasswordUpdate" class="btn border-primary" (click)="showPasswordForm()">Change Password</button>
 
         <h6 class="mt-5 mb-2">Account Deletion</h6>
         <button class="btn btn-danger" (click)="onDeleteModal()"> Delete Account </button>

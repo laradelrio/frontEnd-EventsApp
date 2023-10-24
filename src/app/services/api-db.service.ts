@@ -64,6 +64,11 @@ export class ApiDbService {
     return this.http.put<ApiResp>(`${this.baseUrl}/users/update/${userId}`, updatedInfo.value);
   }
 
+  updatePassword(updatedPassword: FormGroup): Observable<ApiResp>{
+    let userId:number = this.getUserId();
+    return this.http.put<ApiResp>(`${this.baseUrl}/users/update/password/${userId}`, updatedPassword.value);
+  }
+
   deleteUser(): Observable<ApiResp>{
     let userId:number = this.getUserId();
     return this.http.delete<ApiResp>(`${this.baseUrl}/users/delete/${userId}`)

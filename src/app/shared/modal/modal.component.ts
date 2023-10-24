@@ -41,7 +41,8 @@ export class ModalComponent implements OnInit{
     this.modal.dismissAll();
     if(this.modalName === "deleteUser"){
       this.accountComponent.delete();
-      
+    }else if(this.modalName === "passwordUpdated"){
+      this.cancel();
     }
   }
 

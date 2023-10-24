@@ -49,7 +49,6 @@ export class RegisterComponent {
 
   onSubmit(){
     if(this.registerForm.valid && this.samePassword()){
-      console.log("hello", this.registerForm.value)
       this.apiDbService.registerUser(this.registerForm)
       .pipe(
         finalize(()=>{

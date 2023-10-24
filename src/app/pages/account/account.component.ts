@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Form, Modal } from 'src/app/interfaces/interfaces.interface';
+import { ApiResp, Form, Modal } from 'src/app/interfaces/interfaces.interface';
 import { ApiDbService } from 'src/app/services/api-db.service';
 import { ModalComponent } from 'src/app/shared/modal/modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs';
 
 
 @Component({
@@ -15,12 +16,15 @@ import { Router } from '@angular/router';
 export class AccountComponent implements OnInit{
 
   isEditable: boolean = false;
+  isPasswordUpdate: boolean = false;
+  response: ApiResp = {
+    status: false,
+    message: ''
+  }
 
   accountFormShape: Form[] = [
     { name: 'username', label: 'Username', type: 'text' },
     { name: 'email', label: 'Email Address', type: 'email' },
-    // { name: 'password', label: 'Password', type: 'password' },
-    // { name: 'passwordConfirmed', label: 'Repeat Password', type: 'password' },
   ]
 
   accountForm: FormGroup;
@@ -35,6 +39,7 @@ export class AccountComponent implements OnInit{
       username: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
     })
+
   }
 
   ngOnInit(): void {
@@ -57,15 +62,20 @@ export class AccountComponent implements OnInit{
   isValidInput(input: string): boolean | null {
     return this.accountForm.controls[input].errors && this.accountForm.controls[input].touched;
   }
-
+  
   getInputError(field: string): string {
     return this.apiDbService.getInputError(field, this.accountForm);
   }
 
   onSubmit(): void {
-    this.apiDbService.updateUser(this.accountForm).subscribe();
-    this.isEditable = false;
-    this.getUserAccountDetails();
+    if(this.accountForm.valid){
+      this.apiDbService.updateUser(this.accountForm).subscribe();
+      this.isEditable = false;
+      this.getUserAccountDetails();
+      this.accountForm.disable();
+    }else{
+      this.accountForm.markAllAsTouched();
+    }
   }
 
   onEdit(): void {
@@ -96,7 +106,27 @@ export class AccountComponent implements OnInit{
     localStorage.removeItem('token');
     this.router.navigate(['/home']);
   }
-  
+
+  onCancelUpdatePwrd(){
+    this.isPasswordUpdate = false;
+  }
+
+  showPasswordForm(){
+    this.isPasswordUpdate = true;
+  }
+
+  updatePwrdDoneMessage( ){
+    let modal: Modal = { 
+      name: 'passwordUpdated',
+      title: 'Password Updated Successfully',
+      msg: 'Your password has been updated Successfully',
+      confirmBtnName: 'OK',
+    }
+    this.apiDbService.setModal(modal);
+    this.openModal();
+  }
+
+
 
 }
 
