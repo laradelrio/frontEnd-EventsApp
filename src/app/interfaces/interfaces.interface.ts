@@ -1,3 +1,5 @@
+import { Time } from "@angular/common";
+
 export interface Register{
     username: string,
     email: string,
@@ -45,4 +47,14 @@ export interface Modal{
     title: string;
     msg: string;
     confirmBtnName: string;
+}
+
+export interface Event{
+    name: string;
+    userId: number;
+    category: string,
+    description: string;
+    date: string;
+    time: string;
+    location:string;
 }

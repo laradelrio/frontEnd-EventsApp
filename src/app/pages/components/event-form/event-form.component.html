@@ -1,0 +1,37 @@
+<p>event-form works!</p>
+<form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+
+    <label for="name">Name</label>
+    <input formControlName="name" type="text"  id="name"
+    [ngClass]="!isValidInput('name') ? 'form-control' : 'form-control is-invalid'"> 
+    <p *ngIf="isValidInput('name')" class="text-danger form-text">{{getInputError('name')}}</p>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <label class="input-group-text" for="category">Category</label>
+        </div>
+        <select class="custom-select" id="category"
+        [ngClass]="!isValidInput('category') ? 'form-control' : 'form-control is-invalid'">
+          <option selected> Select a Category </option>
+          <option value="1">Career/Business</option>
+          <option value="2">Culture</option>
+          <option value="3">Games</option>
+          <option value="4">Music</option>
+          <option value="5">Tech</option>
+          <option value="6">Social</option> 
+          <option value="7">Sport</option>
+          <option value="8">Well being</option>
+        </select>
+      </div>
+      <p *ngIf="isValidInput('category')" class="text-danger form-text">{{getInputError('category')}}</p>
+    
+    <label for="description">Description</label>
+    <input formControlName="description" type="text"  id="description"
+      [ngClass]="!isValidInput('description') ? 'form-control' : 'form-control is-invalid'"> 
+    <p *ngIf="isValidInput('description')" class="text-danger form-text">{{getInputError('description')}}</p>
+    
+    <app-date-picker></app-date-picker>
+    <app-time-picker></app-time-picker>
+      
+    <button class="btn bg-primary">Submit </button>
+</form>

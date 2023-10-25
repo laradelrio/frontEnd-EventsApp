@@ -3,8 +3,14 @@ $primary: #541690;
 $secondary:rgb(255, 60, 20);
 
 
+
 body{
     font-family: 'League Spartan', sans-serif;
+}
+
+//weekdays in date picker
+.ngb-dp-weekday{
+    color: #541690 !important;
 }
 
 /*SCROLLBAR*/
