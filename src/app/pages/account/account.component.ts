@@ -67,12 +67,24 @@ export class AccountComponent implements OnInit{
     return this.apiDbService.getInputError(field, this.accountForm);
   }
 
+  successfulSubmit: boolean = false;
   onSubmit(): void {
     if(this.accountForm.valid){
-      this.apiDbService.updateUser(this.accountForm).subscribe();
-      this.isEditable = false;
-      this.getUserAccountDetails();
-      this.accountForm.disable();
+      this.apiDbService.updateUser(this.accountForm)
+      .pipe(
+        finalize(()=>{
+          if(this.successfulSubmit){
+            this.updateAccDoneMessage('Successful', 'been updated successfully')
+          }else{
+            this.updateAccDoneMessage('Unsuccessful', 'NOT been updated successfully')
+          }
+          this.isEditable = false;
+          this.getUserAccountDetails();
+          this.accountForm.disable();
+        }
+      ))
+      .subscribe((res)=> this.successfulSubmit = res.status);
+      
     }else{
       this.accountForm.markAllAsTouched();
     }
@@ -126,7 +138,16 @@ export class AccountComponent implements OnInit{
     this.openModal();
   }
 
-
+  updateAccDoneMessage(titleStatus: string, msgStatus: string){
+    let modal: Modal = { 
+      name: 'accountUpdated',
+      title: `Account Updated ${titleStatus}`,
+      msg: `Your account has ${msgStatus}`,
+      confirmBtnName: 'OK',
+    }
+    this.apiDbService.setModal(modal);
+    this.openModal();
+  }
 
 }
 

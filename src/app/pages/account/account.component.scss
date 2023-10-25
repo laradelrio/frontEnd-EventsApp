@@ -5,3 +5,14 @@
 .form-group{
     max-height: fit-content;
 }
+
+input{
+    &:disabled{
+        background-color: white;
+        border-color: white;
+    }
+}
+
+strong{
+    font-weight: 400;
+}
