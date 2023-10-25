@@ -29,6 +29,8 @@ export class EventFormComponent {
   constructor(
     private fb: FormBuilder,
     private apiDbService: ApiDbService,
+    private datePicker: DatePickerComponent,
+    
   ){
     this.eventForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
@@ -58,5 +60,17 @@ export class EventFormComponent {
     return this.apiDbService.getInputError(field, this.eventForm);
   }  
 
+  getDate(){
+    if(this.datePicker.isValidDate()){
+      this.datePicker.getDate();
+      //return the date and that it's valid
+    }else {
+      //return that teh date is not valid // or like null?
+    }
+  }
+
+  getTime(){
+
+  }
   
 }

@@ -52,6 +52,8 @@ import { TimePickerComponent } from './shared/time-picker/time-picker/time-picke
     // ModalComponent,
     // NgbModule,
     AccountComponent,
+    DatePickerComponent,
+    TimePickerComponent
   ],
   bootstrap: [AppComponent]
 })
