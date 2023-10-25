@@ -16,6 +16,7 @@ import { finalize } from 'rxjs';
 export class AccountComponent implements OnInit{
 
   isEditable: boolean = false;
+  successfulSubmit: boolean = false;
   isPasswordUpdate: boolean = false;
   response: ApiResp = {
     status: false,
@@ -51,12 +52,25 @@ export class AccountComponent implements OnInit{
     this.openModalService.open(ModalComponent, { centered: true });
   }
 
+  //MY ACCOUNT
   getUserAccountDetails() {
     this.apiDbService.getUser()
       .subscribe((resp) => {
         this.accountForm.controls['email'].setValue(resp.data.email);
         this.accountForm.controls['username'].setValue(resp.data.username);
       })
+  }
+
+  onEdit(): void {
+    this.isEditable = true;
+    this.accountForm.enable()
+  }
+  
+  onCancel(): void {
+    this.isEditable = false;
+    this.accountForm.disable();
+    this.apiDbService.getUser();
+    this.getUserAccountDetails();
   }
 
   isValidInput(input: string): boolean | null {
@@ -66,8 +80,7 @@ export class AccountComponent implements OnInit{
   getInputError(field: string): string {
     return this.apiDbService.getInputError(field, this.accountForm);
   }
-
-  successfulSubmit: boolean = false;
+  
   onSubmit(): void {
     if(this.accountForm.valid){
       this.apiDbService.updateUser(this.accountForm)
@@ -90,34 +103,19 @@ export class AccountComponent implements OnInit{
     }
   }
 
-  onEdit(): void {
-    this.isEditable = true;
-    this.accountForm.enable()
-  }
-  
-  onCancel(): void {
-    this.isEditable = false;
-    this.accountForm.disable();
-    this.apiDbService.getUser();
-    this.getUserAccountDetails();
-  }
-
-  onDeleteModal(){
+  updateAccDoneMessage(titleStatus: string, msgStatus: string){
     let modal: Modal = { 
-      name: 'deleteUser',
-      title: 'Delete Account',
-      msg: 'Deleting your account is permanent.',
-      confirmBtnName: 'Delete',
+      name: 'accountUpdated',
+      title: `Account Updated ${titleStatus}`,
+      msg: `Your account has ${msgStatus}`,
+      confirmBtnName: 'OK',
     }
     this.apiDbService.setModal(modal);
     this.openModal();
   }
 
-  delete(){
-    this.apiDbService.deleteUser().subscribe();
-    localStorage.removeItem('token');
-    this.router.navigate(['/home']);
-  }
+
+  //PASSWORD UPDATE
 
   onCancelUpdatePwrd(){
     this.isPasswordUpdate = false;
@@ -138,16 +136,26 @@ export class AccountComponent implements OnInit{
     this.openModal();
   }
 
-  updateAccDoneMessage(titleStatus: string, msgStatus: string){
+ //DELETE MODAL
+
+  onDeleteModal(){
     let modal: Modal = { 
-      name: 'accountUpdated',
-      title: `Account Updated ${titleStatus}`,
-      msg: `Your account has ${msgStatus}`,
-      confirmBtnName: 'OK',
+      name: 'deleteUser',
+      title: 'Delete Account',
+      msg: 'Deleting your account is permanent.',
+      confirmBtnName: 'Delete',
     }
     this.apiDbService.setModal(modal);
     this.openModal();
   }
+
+  delete(){
+    this.apiDbService.deleteUser().subscribe();
+    localStorage.removeItem('token');
+    this.router.navigate(['/home']);
+  }
+
+
 
 }
 
