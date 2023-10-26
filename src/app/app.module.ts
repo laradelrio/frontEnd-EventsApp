@@ -19,6 +19,7 @@ import { PasswordUpdateComponent } from './pages/account/password-update/passwor
 import { EventFormComponent } from './pages/components/event-form/event-form.component';
 import { DatePickerComponent } from './shared/date-picker/date-picker/date-picker.component';
 import { TimePickerComponent } from './shared/time-picker/time-picker/time-picker.component';
+import { AutofillAddressComponent } from './shared/autofill-address/autofill-address.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { TimePickerComponent } from './shared/time-picker/time-picker/time-picke
     PasswordUpdateComponent,
     EventFormComponent,
     DatePickerComponent,
-    TimePickerComponent
+    TimePickerComponent,
+    AutofillAddressComponent
 
   ],
   imports: [

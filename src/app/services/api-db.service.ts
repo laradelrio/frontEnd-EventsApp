@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { ApiResp, DecodedToken, JWT, Modal, UserData } from '../interfaces/interfaces.interface';
 import { Observable, finalize, lastValueFrom } from 'rxjs';
 import jwt_decode from "jwt-decode";
+import { Address } from '../interfaces/autofill.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,6 @@ export class ApiDbService {
     msg: '',
     confirmBtnName: '',
   };
- 
 
   constructor(
     private http: HttpClient,

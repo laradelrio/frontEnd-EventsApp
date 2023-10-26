@@ -1,0 +1,12 @@
+<div [formGroup]="address">
+  <label>Event Address</label>
+  <div class="d-flex ">
+    <input formControlName="input" list="address-list" class="form-select" id="input"
+      placeholder="Event Address">
+    <button (click)="getAddressOptions()" class=" btn btn-primary">Search</button>
+  </div>
+  <ul *ngIf='addressOptions.length>0 && display' id="address-list">
+    <option *ngFor="let address of addressOptions" class="border border-light p-2" (click)="selectAddress(address)">
+      {{address}}</option>
+  </ul>
+</div>
