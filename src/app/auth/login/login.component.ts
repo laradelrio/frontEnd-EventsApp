@@ -35,6 +35,7 @@ export class LoginComponent {
     })
   }
 
+
   isValidInput(input: string): boolean | null{
     return this.loginForm.controls[input].errors && this.loginForm.controls[input].touched;
   }
