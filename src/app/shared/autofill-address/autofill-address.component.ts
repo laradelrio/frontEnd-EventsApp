@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { EventDbApiService } from 'src/app/services/event-db-api.service';
 import { environment } from '../../../environments/environment.development';
+import { LocationsService } from 'src/app/services/locations.service';
 
 
 @Component({
@@ -19,6 +20,7 @@ export class AutofillAddressComponent {
   constructor( 
     private fb: FormBuilder,
     private eventApi: EventDbApiService,
+    private locationService: LocationsService,
     ) {
     this.address = this.fb.group({
       input: [],
@@ -33,18 +35,19 @@ export class AutofillAddressComponent {
     return finalText;
   }
 
-  getUrl(): string {
-    let input: {} = this.address.get('input')!.value;
+  async getUrl(): Promise<string> {
+    let input: {} = this.address.get('input')!.value; 
     let searchableValue = this.optimizeText(input!.toString());
-    let url: string = `https://api.mapbox.com/geocoding/v5/mapbox.places/${searchableValue}.json?country=es&types=address&access_token=${environment.mapboxApiKey}`;
+    let location = await this.locationService.getLocation();
+    let url: string = `https://api.mapbox.com/geocoding/v5/mapbox.places/${searchableValue}.json?proximity=${location[0]}%2C${location[1]}&types=address&access_token=${environment.mapboxApiKey}`;
     return url;
   }
 
-  getAddressOptions() {
+  async getAddressOptions() {
     this.display = true;
     this.addressOptions = [];
-    let url: string = this.getUrl();
-  
+    let url: string = await this.getUrl();
+    
     this.eventApi.getAddressOptions(url)
     .pipe(
       finalize(()=>{
