@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { Form, Register } from 'src/app/interfaces/interfaces.interface';
+import { FormService } from 'src/app/services/form.service';
 import { UserApiDbService } from 'src/app/services/user-db-api.service';
 
 @Component({
@@ -26,6 +27,7 @@ export class RegisterComponent {
   constructor( 
     private fb: FormBuilder,
     private  userApiDbService: UserApiDbService,
+    private fromService: FormService,
     private router: Router
   ){
     this.registerForm = this.fb.group({
@@ -41,7 +43,7 @@ export class RegisterComponent {
   }
 
   getInputError(field: string): string {
-    return this.userApiDbService.getInputError(field, this.registerForm);
+    return this.fromService.getInputError(field, this.registerForm);
   }
   samePassword(): boolean {
     return (this.registerForm.get('password')?.value === this.registerForm.get('passwordConfirmed')?.value)
@@ -68,7 +70,7 @@ export class RegisterComponent {
 
       this.registerForm.markAllAsTouched();
       this.signUpForm.forEach((input)=>{
-        this.userApiDbService.getInputError(input.name, this.registerForm);
+        this.fromService.getInputError(input.name, this.registerForm);
       })
     }
   }

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { ApiResp, Form, JWT } from 'src/app/interfaces/interfaces.interface';
+import { FormService } from 'src/app/services/form.service';
 import { UserApiDbService } from 'src/app/services/user-db-api.service';
 
 @Component({
@@ -25,6 +26,7 @@ export class LoginComponent {
   constructor( 
     private fb: FormBuilder,
     private userApiDbService: UserApiDbService,
+    private fromService: FormService,
     private router: Router
   ){
     this.loginForm = this.fb.group({
@@ -38,7 +40,7 @@ export class LoginComponent {
   }
 
   getInputError(field: string): string {
-    return this.userApiDbService.getInputError(field, this.loginForm);
+    return this.fromService.getInputError(field, this.loginForm);
   }
 
   onSubmit(){   
@@ -64,7 +66,7 @@ export class LoginComponent {
     }else{
       this.loginForm.markAllAsTouched();
       this.signInForm.forEach((input)=>{
-        this.userApiDbService.getInputError(input.name, this.loginForm);
+        this.fromService.getInputError(input.name, this.loginForm);
       })
     }
   }

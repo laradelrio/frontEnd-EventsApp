@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ApiResp, DecodedToken, JWT, Modal, UserData } from '../interfaces/interfaces.interface';
-import { Observable, finalize, lastValueFrom } from 'rxjs';
+import { Observable, lastValueFrom } from 'rxjs';
 import jwt_decode from "jwt-decode";
-import { Address } from '../interfaces/autofill.interface';
+
 
 @Injectable({
   providedIn: 'root'
@@ -73,25 +73,5 @@ export class UserApiDbService {
     let userId:number = this.getUserId();
     return this.http.delete<ApiResp>(`${this.baseUrl}/users/delete/${userId}`)
   }
-
-  getInputError(input: string, form: FormGroup): string{
-    let errors =  form.controls[input].errors  || {};
-    let errorMessage: string = ""
-    for(let error of Object.keys(errors)){
-      switch(error){
-        case 'required':
-          errorMessage = "Required field";
-          break;
-        case 'email':
-          errorMessage = 'Please enter a valid email';
-          break;
-        case 'minlength':
-          errorMessage = 'Invalid input';
-          break;
-      }
-    }
-    return errorMessage;
-  }
-
-  
+ 
 }

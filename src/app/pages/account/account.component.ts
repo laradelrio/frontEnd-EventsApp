@@ -6,6 +6,7 @@ import { ModalComponent } from 'src/app/shared/modal/modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
+import { FormService } from 'src/app/services/form.service';
 
 
 @Component({
@@ -33,6 +34,7 @@ export class AccountComponent implements OnInit{
   constructor(
     private fb: FormBuilder,
     private userApiDbService: UserApiDbService,
+    private formService: FormService,
     private openModalService: NgbModal,
     private router: Router,
   ){
@@ -78,7 +80,7 @@ export class AccountComponent implements OnInit{
   }
   
   getInputError(field: string): string {
-    return this.userApiDbService.getInputError(field, this.accountForm);
+    return this.formService.getInputError(field, this.accountForm);
   }
   
   onSubmit(): void {

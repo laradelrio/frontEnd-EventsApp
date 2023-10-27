@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Form } from 'src/app/interfaces/interfaces.interface';
 import { UserApiDbService } from 'src/app/services/user-db-api.service';
 import { AccountComponent } from '../account.component';
+import { FormService } from 'src/app/services/form.service';
 
 @Component({
   selector: 'app-password-update',
@@ -20,6 +21,7 @@ export class PasswordUpdateComponent {
   constructor(
     private fb: FormBuilder,
     private userApiDbService: UserApiDbService,
+    private formService: FormService,
     private accountComponent: AccountComponent,
   ){
     this.passwordUpdateForm = this.fb.group({
@@ -33,7 +35,7 @@ export class PasswordUpdateComponent {
   }
 
   getInputError(field: string): string {
-    return this.userApiDbService.getInputError(field, this.passwordUpdateForm);
+    return this.formService.getInputError(field, this.passwordUpdateForm);
   }
 
   updatePassword(){
