@@ -8,7 +8,7 @@ import { ApiDbService } from 'src/app/services/api-db.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  styleUrls: ['../auth.component.scss']
 })
 export class RegisterComponent {
 

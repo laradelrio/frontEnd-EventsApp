@@ -15,7 +15,7 @@
                 class="form-group d-flex row pb-1" (ngSubmit)="onSubmit()">
                     <div *ngFor='let input of signUpForm' class='mb-3'>
                         <label [for]="input.name" class="pb-1">{{input.label}}</label>
-                        <input [formControlName]="input.name" [type]="input.type" class="form-control"
+                        <input [formControlName]="input.name" [type]="input.type" class="form-control" [id]="input.name"
                         [ngClass]="!isValidInput(input.name) ? 'form-control' : 'form-control is-invalid'"> 
                         <p *ngIf="isValidInput(input.name)" class="text-danger form-text">{{getInputError(input.name)}}</p>
                     </div>
