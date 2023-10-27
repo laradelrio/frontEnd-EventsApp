@@ -20,6 +20,7 @@ import { EventFormComponent } from './pages/components/event-form/event-form.com
 import { DatePickerComponent } from './shared/date-picker/date-picker/date-picker.component';
 import { TimePickerComponent } from './shared/time-picker/time-picker/time-picker.component';
 import { AutofillAddressComponent } from './shared/autofill-address/autofill-address.component';
+import { MapViewComponent } from './shared/map-view/map-view.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { AutofillAddressComponent } from './shared/autofill-address/autofill-add
     EventFormComponent,
     DatePickerComponent,
     TimePickerComponent,
-    AutofillAddressComponent
+    AutofillAddressComponent,
+    MapViewComponent
 
   ],
   imports: [
