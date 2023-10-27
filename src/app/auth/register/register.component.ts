@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { Form, Register } from 'src/app/interfaces/interfaces.interface';
-import { ApiDbService } from 'src/app/services/api-db.service';
+import { UserApiDbService } from 'src/app/services/user-db-api.service';
 
 @Component({
   selector: 'app-register',
@@ -25,7 +25,7 @@ export class RegisterComponent {
   registerForm: FormGroup
   constructor( 
     private fb: FormBuilder,
-    private apiDbService: ApiDbService,
+    private  userApiDbService: UserApiDbService,
     private router: Router
   ){
     this.registerForm = this.fb.group({
@@ -41,7 +41,7 @@ export class RegisterComponent {
   }
 
   getInputError(field: string): string {
-    return this.apiDbService.getInputError(field, this.registerForm);
+    return this.userApiDbService.getInputError(field, this.registerForm);
   }
   samePassword(): boolean {
     return (this.registerForm.get('password')?.value === this.registerForm.get('passwordConfirmed')?.value)
@@ -49,7 +49,7 @@ export class RegisterComponent {
 
   onSubmit(){
     if(this.registerForm.valid && this.samePassword()){
-      this.apiDbService.registerUser(this.registerForm)
+      this.userApiDbService.registerUser(this.registerForm)
       .pipe(
         finalize(()=>{
           if(this.respStatus){
@@ -68,7 +68,7 @@ export class RegisterComponent {
 
       this.registerForm.markAllAsTouched();
       this.signUpForm.forEach((input)=>{
-        this.apiDbService.getInputError(input.name, this.registerForm);
+        this.userApiDbService.getInputError(input.name, this.registerForm);
       })
     }
   }

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { ApiResp, Form, JWT } from 'src/app/interfaces/interfaces.interface';
-import { ApiDbService } from 'src/app/services/api-db.service';
+import { UserApiDbService } from 'src/app/services/user-db-api.service';
 
 @Component({
   selector: 'app-login',
@@ -24,7 +24,7 @@ export class LoginComponent {
   loginForm: FormGroup
   constructor( 
     private fb: FormBuilder,
-    private apiDbService: ApiDbService,
+    private userApiDbService: UserApiDbService,
     private router: Router
   ){
     this.loginForm = this.fb.group({
@@ -38,12 +38,12 @@ export class LoginComponent {
   }
 
   getInputError(field: string): string {
-    return this.apiDbService.getInputError(field, this.loginForm);
+    return this.userApiDbService.getInputError(field, this.loginForm);
   }
 
   onSubmit(){   
     if(this.loginForm.valid){
-      this.apiDbService.loginUser(this.loginForm)
+      this.userApiDbService.loginUser(this.loginForm)
       .pipe(
         finalize(()=>{
           if(this.response.data !== undefined ){
@@ -64,7 +64,7 @@ export class LoginComponent {
     }else{
       this.loginForm.markAllAsTouched();
       this.signInForm.forEach((input)=>{
-        this.apiDbService.getInputError(input.name, this.loginForm);
+        this.userApiDbService.getInputError(input.name, this.loginForm);
       })
     }
   }

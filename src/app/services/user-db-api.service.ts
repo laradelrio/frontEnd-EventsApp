@@ -9,7 +9,7 @@ import { Address } from '../interfaces/autofill.interface';
 @Injectable({
   providedIn: 'root'
 })
-export class ApiDbService {
+export class UserApiDbService {
 
   baseUrl: string = `http://localhost:8080/api`;
   modalInfo: Modal = {

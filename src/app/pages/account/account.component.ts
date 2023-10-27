@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiResp, Form, Modal } from 'src/app/interfaces/interfaces.interface';
-import { ApiDbService } from 'src/app/services/api-db.service';
+import { UserApiDbService } from 'src/app/services/user-db-api.service';
 import { ModalComponent } from 'src/app/shared/modal/modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
@@ -32,7 +32,7 @@ export class AccountComponent implements OnInit{
 
   constructor(
     private fb: FormBuilder,
-    private apiDbService: ApiDbService,
+    private userApiDbService: UserApiDbService,
     private openModalService: NgbModal,
     private router: Router,
   ){
@@ -54,7 +54,7 @@ export class AccountComponent implements OnInit{
 
   //MY ACCOUNT
   getUserAccountDetails() {
-    this.apiDbService.getUser()
+    this.userApiDbService.getUser()
       .subscribe((resp) => {
         this.accountForm.controls['email'].setValue(resp.data.email);
         this.accountForm.controls['username'].setValue(resp.data.username);
@@ -69,7 +69,7 @@ export class AccountComponent implements OnInit{
   onCancel(): void {
     this.isEditable = false;
     this.accountForm.disable();
-    this.apiDbService.getUser();
+    this.userApiDbService.getUser();
     this.getUserAccountDetails();
   }
 
@@ -78,12 +78,12 @@ export class AccountComponent implements OnInit{
   }
   
   getInputError(field: string): string {
-    return this.apiDbService.getInputError(field, this.accountForm);
+    return this.userApiDbService.getInputError(field, this.accountForm);
   }
   
   onSubmit(): void {
     if(this.accountForm.valid){
-      this.apiDbService.updateUser(this.accountForm)
+      this.userApiDbService.updateUser(this.accountForm)
       .pipe(
         finalize(()=>{
           if(this.successfulSubmit){
@@ -110,7 +110,7 @@ export class AccountComponent implements OnInit{
       msg: `Your account has ${msgStatus}`,
       confirmBtnName: 'OK',
     }
-    this.apiDbService.setModal(modal);
+    this.userApiDbService.setModal(modal);
     this.openModal();
   }
 
@@ -132,7 +132,7 @@ export class AccountComponent implements OnInit{
       msg: 'Your password has been updated Successfully',
       confirmBtnName: 'OK',
     }
-    this.apiDbService.setModal(modal);
+    this.userApiDbService.setModal(modal);
     this.openModal();
   }
 
@@ -145,12 +145,12 @@ export class AccountComponent implements OnInit{
       msg: 'Deleting your account is permanent.',
       confirmBtnName: 'Delete',
     }
-    this.apiDbService.setModal(modal);
+    this.userApiDbService.setModal(modal);
     this.openModal();
   }
 
   delete(){
-    this.apiDbService.deleteUser().subscribe();
+    this.userApiDbService.deleteUser().subscribe();
     localStorage.removeItem('token');
     this.router.navigate(['/home']);
   }

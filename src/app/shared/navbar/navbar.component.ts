@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiDbService } from 'src/app/services/api-db.service';
+import { UserApiDbService } from 'src/app/services/user-db-api.service';
 
 @Component({
   selector: 'app-navbar',
@@ -12,7 +12,7 @@ export class NavbarComponent {
   isLoggedIn: boolean = false;
 
   constructor(
-    private apiDbService: ApiDbService,
+    private userApiDbService: UserApiDbService,
     private router: Router,
   ){
     this.isLoggedInF();
@@ -20,7 +20,7 @@ export class NavbarComponent {
 
   //subscribes to api JWT validation response
   isLoggedInF(): void{
-   this.apiDbService.validateToken()
+   this.userApiDbService.validateToken()
    .subscribe((resp)=> this.isLoggedIn = resp.status.valueOf());
   }
  

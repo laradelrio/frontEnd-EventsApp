@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AccountComponent } from 'src/app/pages/account/account.component';
-import { ApiDbService } from 'src/app/services/api-db.service';
+import { UserApiDbService } from 'src/app/services/user-db-api.service';
 
 @Component({
   selector: 'app-modal',
@@ -17,7 +17,7 @@ export class ModalComponent implements OnInit{
   constructor(
     private modalC: NgbModal,
     public activeModal: NgbActiveModal,
-    private apiDbService: ApiDbService,
+    private userApiDbService: UserApiDbService,
     private accountComponent: AccountComponent,
   ){
     
@@ -30,11 +30,11 @@ export class ModalComponent implements OnInit{
   modal = this.modalC;
   
   getModalContent(){
-   let modalContent = this.apiDbService.modalInfo;
-   this.modalName = modalContent.name;
-   this.modalTitle = modalContent.title;
-   this.modalMessage = modalContent.msg;
-   this.confirmBtnName = modalContent.confirmBtnName;    
+  let modalContent = this.userApiDbService.modalInfo;
+  this.modalName = modalContent.name;
+  this.modalTitle = modalContent.title;
+  this.modalMessage = modalContent.msg;
+  this.confirmBtnName = modalContent.confirmBtnName;    
   }
 
   confirm() {

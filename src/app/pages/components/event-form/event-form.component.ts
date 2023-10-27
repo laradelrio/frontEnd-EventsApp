@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Event, Form } from 'src/app/interfaces/interfaces.interface';
-import { ApiDbService } from 'src/app/services/api-db.service';
+import { UserApiDbService } from 'src/app/services/user-db-api.service';
 import { DatePickerComponent } from 'src/app/shared/date-picker/date-picker/date-picker.component';
 
 
@@ -28,7 +28,7 @@ export class EventFormComponent {
   
   constructor(
     private fb: FormBuilder,
-    private apiDbService: ApiDbService,
+    private userApiDbService: UserApiDbService,
     private datePicker: DatePickerComponent,
     
   ){
@@ -57,7 +57,7 @@ export class EventFormComponent {
   }
 
   getInputError(field: string): string {
-    return this.apiDbService.getInputError(field, this.eventForm);
+    return this.userApiDbService.getInputError(field, this.eventForm);
   }  
 
   getDate(){

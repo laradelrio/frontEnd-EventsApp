@@ -1,16 +1,15 @@
 import { CanActivateFn, Router} from '@angular/router';
-import { ApiDbService } from '../services/api-db.service';
+import { UserApiDbService } from '../services/user-db-api.service';
 import { inject } from '@angular/core';
 
 
 export const authGuardGuard: CanActivateFn = async() => {
-  const apiDbService = inject(ApiDbService);
+  const userApiDbService = inject(UserApiDbService);
   const router = inject(Router);
 
-  let isValidToken = await apiDbService.isValidToken()
+  let isValidToken = await userApiDbService.isValidToken()
   
   return !isValidToken ? router.navigate(['/login']) : true;
- 
 };
 
 

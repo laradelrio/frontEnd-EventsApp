@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Form } from 'src/app/interfaces/interfaces.interface';
-import { ApiDbService } from 'src/app/services/api-db.service';
+import { UserApiDbService } from 'src/app/services/user-db-api.service';
 import { AccountComponent } from '../account.component';
 
 @Component({
@@ -19,7 +19,7 @@ export class PasswordUpdateComponent {
 
   constructor(
     private fb: FormBuilder,
-    private apiDbService: ApiDbService,
+    private userApiDbService: UserApiDbService,
     private accountComponent: AccountComponent,
   ){
     this.passwordUpdateForm = this.fb.group({
@@ -33,12 +33,12 @@ export class PasswordUpdateComponent {
   }
 
   getInputError(field: string): string {
-    return this.apiDbService.getInputError(field, this.passwordUpdateForm);
+    return this.userApiDbService.getInputError(field, this.passwordUpdateForm);
   }
 
   updatePassword(){
     if(this.passwordUpdateForm.valid && this.samePassword()){
-      this.apiDbService.updatePassword(this.passwordUpdateForm).subscribe()
+      this.userApiDbService.updatePassword(this.passwordUpdateForm).subscribe()
       this.accountComponent.onCancelUpdatePwrd();
       this.accountComponent.updatePwrdDoneMessage();
     }else{
