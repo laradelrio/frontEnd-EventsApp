@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { EventDbApiService } from 'src/app/services/event-db-api.service';
-import { environment } from './../../../../environments/environment.development';
+import { environment } from '../../../environments/environment.development';
 
 
 @Component({
