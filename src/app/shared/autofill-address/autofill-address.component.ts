@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { EventDbApiService } from 'src/app/services/event-db-api.service';
 import { environment } from '../../../environments/environment.development';
@@ -16,6 +16,8 @@ export class AutofillAddressComponent {
   display: boolean = false;
   addressOptions: string[] = [];
   address: FormGroup;
+  isTouched: boolean = false;
+  coordinates: number[] | undefined = undefined;
 
   constructor( 
     private fb: FormBuilder,
@@ -23,7 +25,7 @@ export class AutofillAddressComponent {
     private locationService: LocationsService,
     ) {
     this.address = this.fb.group({
-      input: [],
+      input: ['', [Validators.required]],
     })
   }
 
@@ -55,7 +57,9 @@ export class AutofillAddressComponent {
     }))
     .subscribe((res)=>{
       res.features.forEach((place) => {
-      this.addressOptions.push(place.place_name)})
+        this.coordinates = place.geometry.coordinates;
+        this.addressOptions.push(place.place_name);
+      })
     })
   }
 
@@ -65,6 +69,32 @@ export class AutofillAddressComponent {
     this.display = false;
   }
 
+  inputTouched(){
+    this.isTouched = true;
+  }
+
+  isValidInput(): boolean | null{
+    return this.address.controls['input'].errors && this.address.controls['input'].touched && !this.hasCoordinates();
+  }
+
+  getAddress(): string{
+    return this.address.get('input')!.value; 
+  }
+
+  getCoordinates(): number[]{
+    return this.coordinates!;
+  }
+
+  hasCoordinates(): boolean{
+    if(this.coordinates === undefined){
+      return false;
+    } else{
+      return true;
+    }
+  }
+
 }
+
+
 
 

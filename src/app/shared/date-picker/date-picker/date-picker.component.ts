@@ -14,6 +14,8 @@ export class DatePickerComponent {
     day: 0
   };
 
+  isTouched: boolean = false;
+
   constructor(
     private calendar: NgbCalendar
   ){
@@ -27,12 +29,10 @@ export class DatePickerComponent {
   isValidDate(): boolean{
     let date = this.getDate();
     let isValid = new Date(date).toString();
-    console.log(typeof(isValid), isValid)
     if(isValid == "Invalid Date"){
       return false;
     }else{
       return this.isDateAfterToday();
-      
     }
   }
 
@@ -46,6 +46,10 @@ export class DatePickerComponent {
     }else{
       return false;
     }
+  }
+
+  inputTouched(){
+    this.isTouched = true;
   }
 }
 
