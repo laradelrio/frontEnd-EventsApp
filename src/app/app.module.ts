@@ -19,8 +19,12 @@ import { PasswordUpdateComponent } from './pages/account/password-update/passwor
 import { EventFormComponent } from './pages/components/event-form/event-form.component';
 import { DatePickerComponent } from './shared/date-picker/date-picker/date-picker.component';
 import { TimePickerComponent } from './shared/time-picker/time-picker/time-picker.component';
-import { AutofillAddressComponent } from './shared/autofill-address/autofill-address.component';
+
 import { MapViewComponent } from './shared/map-view/map-view.component';
+import { LocationsService } from './services/locations.service';
+import { AutofillAddressComponent } from './shared/autofill-address/autofill-address.component';
+import { FormService } from './services/form.service';
+
 
 @NgModule({
   declarations: [
@@ -55,9 +59,10 @@ import { MapViewComponent } from './shared/map-view/map-view.component';
   providers: [
     // ModalComponent,
     // NgbModule,
-    AccountComponent,
+    // AccountComponent,
     DatePickerComponent,
-    TimePickerComponent
+    TimePickerComponent,
+    AutofillAddressComponent,
   ],
   bootstrap: [AppComponent]
 })

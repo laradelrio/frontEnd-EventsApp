@@ -31,11 +31,22 @@
       [ngClass]="!isValidInput('description') ? 'form-control' : 'form-control is-invalid'"> 
     <p *ngIf="isValidInput('description')" class="text-danger form-text">{{getInputError('description')}}</p>
     
-    <app-date-picker></app-date-picker>
-    <app-time-picker></app-time-picker>
-    <app-autofill-address></app-autofill-address>
-      
-    <button class="btn bg-primary text-white mt-4 pe-3 ps-3 pt-2 pb-2"> Submit </button>
+    <label for="'date-time">Date and Time</label>
+    <input formControlName="date" type="date" id="date-time" name="date-time" min="31-10-2023" max="2028-02-20"
+    [ngClass]="!isValidInput('description') ? 'form-control' : 'form-control is-invalid'">
+    
+
+
+
+    <button class="btn bg-primary text-white mt-4 pe-3 ps-3 pt-2 pb-2" type="submit"> Submit </button>
 </form>
+
+
+
+<!-- <app-date-picker></app-date-picker>
+    <app-time-picker ></app-time-picker> -->
+    <app-autofill-address ></app-autofill-address>
+
+<section> {{eventForm.value | json}} </section>
 
 

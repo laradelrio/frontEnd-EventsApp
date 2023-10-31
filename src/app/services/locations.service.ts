@@ -1,4 +1,9 @@
 import { Injectable } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { EventDbApiService } from './event-db-api.service';
+import { FormService } from './form.service';
+import { finalize } from 'rxjs';
+import { environment } from 'src/environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
@@ -8,8 +13,11 @@ export class LocationsService {
 
   userLocation?: [number, number] ;
   
-  constructor() { 
-  }
+  location: string = '';
+  longitude: number = 0;
+  latitude: number = 0;
+  validLocation: boolean = false;
+
 
   //returns if location has been found or not
   isLocation(): boolean{
