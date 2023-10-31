@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { AutofillAddressComponent } from '../shared/autofill-address/autofill-address.component';
-import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +9,6 @@ export class FormService {
  
 
   constructor(
-    private addressForm: AutofillAddressComponent,
   ) { }
 
   getInputError(input: string, form: FormGroup): string{
@@ -32,14 +29,5 @@ export class FormService {
     }
     return errorMessage;
   }
-
-  isValidAddress(): boolean{
-    return this.addressForm.address.valid;
-  }
-
-  getAddress(){
-    console.log(this.addressForm.address.value)
-  }
-
 
 }

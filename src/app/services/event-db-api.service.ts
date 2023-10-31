@@ -16,6 +16,4 @@ export class EventDbApiService {
   getAddressOptions(url: string): Observable<Address> {
     return this.http.get<Address>(url);
   }
-
-
 }
