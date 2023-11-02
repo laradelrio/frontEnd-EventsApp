@@ -1,25 +1,63 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './pages/home/home.component';
-import { MapComponent } from './pages/map/map.component';
-import { CalendarComponent } from './pages/calendar/calendar.component';
-import { GraphicsComponent } from './pages/graphics/graphics.component';
-import { LoginComponent } from './auth/login/login.component';
-import { RegisterComponent } from './auth/register/register.component';
-import { authGuardGuard } from './guards/auth-guard.guard';
-import { AccountComponent } from './pages/account/account.component';
-import { MyeventsComponent } from './pages/myevents/myevents.component';
+
+import { LoginComponent } from './modules/auth/pages/login/login.component';
+import { RegisterComponent } from './modules/auth/pages/register/register.component';
+import { authGuardGuard } from './shared/guards/auth-guard.guard';
+import { MainpageComponent } from './layout/mainpage/mainpage.component';
+import { HomeModule } from './modules/home/home.module';
+import { MapModule } from './modules/map/map.module';
+import { CalendarModule } from './modules/calendar/calendar.module';
+import { GraphsModule } from './modules//graphs/graphs.module';
+import { AccountModule } from './modules/account/account.module';
+
+import { MyeventsModule } from './modules/myevents/myevents.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 const routes: Routes = [
-  {path: 'home', component: HomeComponent},
-  {path: 'map', component: MapComponent,  canActivate: [authGuardGuard]},
-  {path: 'calendar', component: CalendarComponent, canActivate: [authGuardGuard]},
-  {path: 'graphics', component: GraphicsComponent, canActivate: [authGuardGuard]},
-  {path: 'login', component: LoginComponent},
-  {path: 'register', component: RegisterComponent},
-  {path: 'myaccount', component: AccountComponent},
-  {path: 'myevents', component:MyeventsComponent},
-  {path: '**', redirectTo: 'home'},
+  {
+    path: '',
+    component: MainpageComponent,
+    children: [
+      {
+        path: 'home',
+        loadChildren: () => import('./modules/home/home.module').then((m): typeof HomeModule => m.HomeModule)
+      },
+      {
+        path: 'map',
+        loadChildren: () => import('./modules/map/map.module').then((m): typeof MapModule => m.MapModule),
+        canActivate: [authGuardGuard]
+      },
+      {
+        path: 'calendar',
+        loadChildren: () => import('./modules/calendar/calendar.module').then((m): typeof CalendarModule => m.CalendarModule),
+        canActivate: [authGuardGuard]
+      },
+      {
+        path: 'graphics',
+        loadChildren: () => import('./modules/graphs/graphs.module').then((m): typeof GraphsModule => m.GraphsModule),
+        canActivate: [authGuardGuard]
+      },
+      {
+        path: 'myaccount',
+        loadChildren: () => import('./modules/account/account.module').then((m): typeof AccountModule => m.AccountModule),
+        canActivate: [authGuardGuard]
+      },
+      {
+        path: 'myevents',
+        loadChildren: () => import('./modules/myevents/myevents.module').then((m): typeof MyeventsModule => m.MyeventsModule),
+        canActivate: [authGuardGuard]
+      },
+    ]
+  },
+  {
+    path: 'auth',
+    loadChildren: () => AuthModule ,
+  },
+  {
+    path: '**',
+    redirectTo: 'home'
+  },
 ];
 
 @NgModule({
@@ -27,5 +65,5 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule {
- 
- }
+
+}
