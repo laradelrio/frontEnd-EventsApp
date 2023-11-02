@@ -8,6 +8,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { authGuardGuard } from './guards/auth-guard.guard';
 import { AccountComponent } from './pages/account/account.component';
+import { MyeventsComponent } from './pages/myevents/myevents.component';
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
@@ -17,6 +18,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'myaccount', component: AccountComponent},
+  {path: 'myevents', component:MyeventsComponent},
   {path: '**', redirectTo: 'home'},
 ];
 
