@@ -18,6 +18,7 @@ import { ModalComponent } from './shared/modal/modal.component';
 import { PasswordUpdateComponent } from './pages/account/password-update/password-update.component';
 import { EventFormComponent } from './pages/components/event-form/event-form.component';
 import { MapViewComponent } from './shared/map-view/map-view.component';
+import { MyeventsComponent } from './pages/myevents/myevents.component';
 
 
 
@@ -36,6 +37,7 @@ import { MapViewComponent } from './shared/map-view/map-view.component';
     PasswordUpdateComponent,
     EventFormComponent,
     MapViewComponent,
+    MyeventsComponent,
   ],
   imports: [
     BrowserModule,
