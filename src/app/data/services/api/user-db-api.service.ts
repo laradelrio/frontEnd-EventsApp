@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ApiResp, DecodedToken, JWT, Modal, UserData } from '../../interfaces/interfaces.interface';
-import { Observable, lastValueFrom } from 'rxjs';
+import { ApiResp, DecodedToken, JWT, UserData } from '../../interfaces/interfaces.interface';
+import { BehaviorSubject, Observable, lastValueFrom } from 'rxjs';
 import jwt_decode from "jwt-decode";
 import { Constants } from '../../constants/constants';
 
@@ -13,21 +13,16 @@ import { Constants } from '../../constants/constants';
 export class UserApiDbService {
 
   baseUrl: string = Constants.DB_API_ENDPOINT;
-  modalInfo: Modal = {
-    name: '',
-    title: '',
-    msg: '',
-    confirmBtnName: '',
-  };
+  accountFormApiResp: BehaviorSubject<ApiResp>;
 
   constructor(
     private http: HttpClient,
   ) { 
-
+    this.accountFormApiResp = new BehaviorSubject<ApiResp>({ status: false, message: ''});
   }
 
-  setModal(modalInfo: Modal): void{
-    this.modalInfo = modalInfo; 
+  getAccountFormApiResp(): Observable<ApiResp>{
+    return this.accountFormApiResp.asObservable()
   }
 
   registerUser(registerForm: FormGroup): Observable<ApiResp>{

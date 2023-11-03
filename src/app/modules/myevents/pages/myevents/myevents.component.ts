@@ -50,7 +50,7 @@ export class MyeventsComponent implements OnInit {
 
   getPopupValue(value: any) {
     if (value == 'Save click') {
-      console.log(value);
+      // console.log(value);
     } else {
       //cancel has been clicked
     }

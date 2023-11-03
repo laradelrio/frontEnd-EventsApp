@@ -20,9 +20,6 @@ import { PasswordUpdateComponent } from './modules/account/pages/account/compone
     AppComponent,
     MainpageComponent,
     NavbarComponent,   
-    AccountComponent  ,
-    PasswordUpdateComponent,
-    
   ],
   imports: [
     BrowserModule,

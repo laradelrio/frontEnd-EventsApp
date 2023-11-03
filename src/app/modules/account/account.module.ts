@@ -12,8 +12,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
-    
-    // PasswordUpdateComponent
+    AccountComponent,
+    PasswordUpdateComponent
   ],
   imports: [
     CommonModule,

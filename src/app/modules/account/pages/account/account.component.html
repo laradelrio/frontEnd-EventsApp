@@ -5,22 +5,22 @@
         <div class=" border rounded p-3 mb-3">
             <div class=" d-flex justify-content-between">
                 <h5 class="pt-2"> Account Details</h5>
-                <button *ngIf="!isEditable" class=" btn bg-white border-primary" (click)="onEdit()">
+                <button *ngIf="!isDetailsEditable" class=" btn bg-white border-primary" (click)="onDetailsEdit()">
                     <div>Edit <i class="fa-regular fa-pen-to-square"></i></div>
                 </button>
-                <button *ngIf="isEditable" class=" btn bg-white border-primary" (click)="onCancel()">
+                <button *ngIf="isDetailsEditable" class=" btn bg-white border-primary" (click)="onDetailsCancel()">
                     <div> Cancel </div>
                 </button>
             </div>
             <hr>
-            <form [formGroup]="accountForm" class="form-group" (ngSubmit)="onSubmit()">
+            <form [formGroup]="accountForm" class="form-group" (ngSubmit)="onDetailsSubmit()">
                 <div *ngFor="let input of accountFormShape" class="pt-2 pb-2">
                     <label [for]="input.name" class="mb-2 text-primary">{{input.label}}:</label>
                     <input [formControlName]="input.name" [id]="input.name" [type]="input.type" 
                     [ngClass]="!isValidInput(input.name) ? 'form-control' : 'form-control is-invalid'">
                     <p *ngIf="isValidInput(input.name)" class="text-danger form-text">{{getInputError(input.name)}}</p>
                 </div>
-                <button *ngIf="isEditable" type="submit" class="btn btn-primary mt-3">Submit</button>
+                <button *ngIf="isDetailsEditable" type="submit" class="btn btn-primary mt-3">Submit</button>
             </form>
         </div>
         
@@ -31,14 +31,18 @@
                     Cancel
                 </button>
             </div>
-            <!-- <app-password-update *ngIf="isPasswordUpdate" ></app-password-update> -->
+            <app-password-update *ngIf="isPasswordUpdate" ></app-password-update>
             <button *ngIf="!isPasswordUpdate" class="btn border-primary mb-3" (click)="showPasswordForm()">Change Password</button>
         </div>
 
         <div class=" border rounded p-3">
             <h6 class="mt-2 mb-2">Account Deletion</h6>
-            <button class="btn btn-danger" (click)="onDeleteModal()"> Delete Account </button>
+            <button class="btn btn-danger" (click)="onDelete()"> Delete Account </button>
         </div>
     </div>
 </div>
 </div>
+
+<popup-modal #popupModal (newPopupEvent)="getPopupValue($event)" [modalStyle]="modalStyle" [modalTitle]="modalTitle"
+    [modalBody]="modalBody" [modalButtonColor]="modalButtonColor">
+</popup-modal>

@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ApiResp, Form, Modal } from 'src/app/data/interfaces/interfaces.interface';
+import { ApiResp, Form } from 'src/app/data/interfaces/interfaces.interface';
 import { UserApiDbService } from 'src/app/data/services/api/user-db-api.service';
-import { ModalComponent } from 'src/app/shared/components/modal/modal.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { FormService } from 'src/app/shared/services/form.service';
+import { PopupModalComponent } from 'src/app/shared/components/popup-modal/popup-modal.component';
 
 
 @Component({
@@ -14,11 +13,19 @@ import { FormService } from 'src/app/shared/services/form.service';
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss']
 })
-export class AccountComponent implements OnInit{
+export class AccountComponent implements OnInit {
 
-  isEditable: boolean = false;
+  @ViewChild('popupModal') private modalComponent!: PopupModalComponent;
+
+  isDetailsEditable: boolean = false;
   successfulSubmit: boolean = false;
   isPasswordUpdate: boolean = false;
+  deleteModalOpened: boolean = false;
+  modalStyle: string = '';
+  modalTitle: string = '';
+  modalBody: string = '';
+  modalButtonColor: string = '';
+
   response: ApiResp = {
     status: false,
     message: ''
@@ -35,9 +42,8 @@ export class AccountComponent implements OnInit{
     private fb: FormBuilder,
     private userApiDbService: UserApiDbService,
     private formService: FormService,
-    private openModalService: NgbModal,
     private router: Router,
-  ){
+  ) {
     this.accountForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
@@ -48,10 +54,18 @@ export class AccountComponent implements OnInit{
   ngOnInit(): void {
     this.accountForm.disable();
     this.getUserAccountDetails();
+
+    this.userApiDbService.getAccountFormApiResp()
+      .subscribe((resp) => this.setModalValues(resp));
   }
 
-  openModal(): void {
-    this.openModalService.open(ModalComponent, { centered: true });
+
+  isValidInput(input: string): boolean | null {
+    return this.accountForm.controls[input].errors && this.accountForm.controls[input].touched;
+  }
+
+  getInputError(field: string): string {
+    return this.formService.getInputError(field, this.accountForm);
   }
 
   //MY ACCOUNT
@@ -63,102 +77,96 @@ export class AccountComponent implements OnInit{
       })
   }
 
-  onEdit(): void {
-    this.isEditable = true;
+  onDetailsEdit(): void {
+    this.modalBody = 'Account Details Updated '
+    this.isDetailsEditable = true;
     this.accountForm.enable()
   }
-  
-  onCancel(): void {
-    this.isEditable = false;
+
+  onDetailsCancel(): void {
+    this.isDetailsEditable = false;
     this.accountForm.disable();
     this.userApiDbService.getUser();
     this.getUserAccountDetails();
   }
 
-  isValidInput(input: string): boolean | null {
-    return this.accountForm.controls[input].errors && this.accountForm.controls[input].touched;
-  }
-  
-  getInputError(field: string): string {
-    return this.formService.getInputError(field, this.accountForm);
-  }
-  
-  onSubmit(): void {
-    if(this.accountForm.valid){
+  onDetailsSubmit(): void {
+    if (this.accountForm.valid) {
       this.userApiDbService.updateUser(this.accountForm)
-      .pipe(
-        finalize(()=>{
-          if(this.successfulSubmit){
-            this.updateAccDoneMessage('Successful', 'been updated successfully')
-          }else{
-            this.updateAccDoneMessage('Unsuccessful', 'NOT been updated successfully')
+        .pipe(
+          finalize(() => {
+            this.isDetailsEditable = false;
+            this.getUserAccountDetails();
+            this.accountForm.disable();
           }
-          this.isEditable = false;
-          this.getUserAccountDetails();
-          this.accountForm.disable();
-        }
-      ))
-      .subscribe((res)=> this.successfulSubmit = res.status);
-      
-    }else{
+          ))
+        .subscribe((res) => this.setModalValues(res));
+
+    } else {
       this.accountForm.markAllAsTouched();
     }
   }
 
-  updateAccDoneMessage(titleStatus: string, msgStatus: string){
-    let modal: Modal = { 
-      name: 'accountUpdated',
-      title: `Account Updated ${titleStatus}`,
-      msg: `Your account has ${msgStatus}`,
-      confirmBtnName: 'OK',
-    }
-    this.userApiDbService.setModal(modal);
-    this.openModal();
-  }
-
-
   //PASSWORD UPDATE
-
-  onCancelUpdatePwrd(){
-    this.isPasswordUpdate = false;
-  }
-
-  showPasswordForm(){
+  showPasswordForm() {
+    this.modalTitle = 'Password Updated '
     this.isPasswordUpdate = true;
   }
 
-  updatePwrdDoneMessage( ){
-    let modal: Modal = { 
-      name: 'passwordUpdated',
-      title: 'Password Updated Successfully',
-      msg: 'Your password has been updated Successfully',
-      confirmBtnName: 'OK',
+  onCancelUpdatePwrd() {
+    this.isPasswordUpdate = false;
+  }
+
+  //DELETE ACCOUNT
+  onDelete() {
+    this.modalStyle = 'modal-style-danger';
+    this.modalTitle = 'Delete Account'
+    this.modalBody = 'Deleting your account is permanent. Your account and all the events you created will be permanently deleted.';
+    this.modalButtonColor = 'btn-danger';
+    this.openModal();
+    this.deleteModalOpened = true;
+  }
+
+  deleteAccount() {
+    let respStatus: boolean;
+    this.userApiDbService.deleteUser()
+    .pipe(
+      finalize( () => {
+        if(respStatus){
+          localStorage.removeItem('token');
+          this.router.navigate(['/home']);
+        }
+        this.deleteModalOpened = false;
+      })
+    )
+    .subscribe( (res) => {this.userApiDbService.accountFormApiResp.next(res), respStatus = res.status});
+
+  }
+
+  getPopupValue(value: any) {
+    if (value == 'Save click' && this.deleteModalOpened) {
+      this.deleteAccount();
     }
-    this.userApiDbService.setModal(modal);
+
+  }
+
+  //MODAL
+
+  setModalValues(resp: ApiResp) {
+    this.modalStyle = (resp.status ? 'modal-style-success' : 'modal-style-danger');
+    this.modalTitle += (resp.status ? 'Successfully' : 'Unsuccessfully');
+    this.modalBody = resp.message;
+    this.modalButtonColor = (resp.status ? 'btn-success' : 'btn-danger');
     this.openModal();
   }
 
- //DELETE MODAL
+  async openModal() {
+    return await this.modalComponent.open();
+  }
 
-  onDeleteModal(){
-    let modal: Modal = { 
-      name: 'deleteUser',
-      title: 'Delete Account',
-      msg: 'Deleting your account is permanent.',
-      confirmBtnName: 'Delete',
-    }
-    this.userApiDbService.setModal(modal);
+  open() {
     this.openModal();
   }
-
-  delete(){
-    this.userApiDbService.deleteUser().subscribe();
-    localStorage.removeItem('token');
-    this.router.navigate(['/home']);
-  }
-
-
-
 }
 
 

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MapViewComponent } from './components/map-view/map-view.component';
-import { ModalComponent } from './components/modal/modal.component';
 import { EventFormComponent } from './components/event-form/event-form.component';
 import { RouterModule } from '@angular/router';
 import { PopupModalComponent } from './components/popup-modal/popup-modal.component';
@@ -14,11 +13,8 @@ import { PopupModalComponent } from './components/popup-modal/popup-modal.compon
 @NgModule({
   declarations: [
     MapViewComponent,
-    ModalComponent,
     EventFormComponent,
     PopupModalComponent,
-    
-
   ],
   imports: [
     CommonModule,
@@ -32,7 +28,6 @@ import { PopupModalComponent } from './components/popup-modal/popup-modal.compon
     FormsModule,
     HttpClientModule,
     MapViewComponent,
-    ModalComponent,
     EventFormComponent,
     PopupModalComponent,
     

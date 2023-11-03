@@ -27,7 +27,7 @@ export class EventDbApiService {
     if(this.eventFormSubmitAction === 'add') {
       this.registerEvent(eventForm)
         .subscribe(
-          (resp: ApiResp) => {this.eventFormApiResp.next(resp), console.log(resp)});
+          (resp: ApiResp) => {this.eventFormApiResp.next(resp)});
     } else if (this.eventFormSubmitAction === 'update') {
     }
   }
@@ -47,7 +47,6 @@ export class EventDbApiService {
   }
 
   registerEvent(eventForm: FormGroup): Observable<ApiResp> {
-    console.log(eventForm.value)
     return this.http.post<ApiResp>(`${this.baseUrl}/events/add`, eventForm.value);
   }
 

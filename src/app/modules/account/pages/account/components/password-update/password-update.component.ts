@@ -12,6 +12,7 @@ import { FormService } from 'src/app/shared/services/form.service';
 })
 export class PasswordUpdateComponent {
 
+  isSubmit: boolean = false;
   passwordUpdateForm: FormGroup;
   passwordFormShape: Form[] = [
     { name: 'password', label: 'Password', type: 'password' },
@@ -40,11 +41,15 @@ export class PasswordUpdateComponent {
 
   updatePassword(){
     if(this.passwordUpdateForm.valid && this.samePassword()){
-      this.userApiDbService.updatePassword(this.passwordUpdateForm).subscribe()
+      this.userApiDbService.updatePassword(this.passwordUpdateForm)
+      .subscribe( (resp) => this.userApiDbService.accountFormApiResp.next(resp));
+      
       this.accountComponent.onCancelUpdatePwrd();
-      this.accountComponent.updatePwrdDoneMessage();
+
+      this.isSubmit = false;
     }else{
       this.passwordUpdateForm.markAllAsTouched();
+      this.isSubmit = true;
     }   
   }
 
