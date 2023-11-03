@@ -9,6 +9,9 @@ import { MainpageComponent } from './layout/mainpage/mainpage.component';
 import { NavbarComponent } from './layout/navbar/navbar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from './shared/shared.module';
+import { AccountComponent } from './modules/account/pages/account/account.component';
+import { PasswordUpdateComponent } from './modules/account/pages/account/components/password-update/password-update.component';
+
 
 
 
@@ -16,14 +19,17 @@ import { SharedModule } from './shared/shared.module';
   declarations: [
     AppComponent,
     MainpageComponent,
-    NavbarComponent,     
+    NavbarComponent,   
+    AccountComponent  ,
+    PasswordUpdateComponent,
+    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    CoreModule,
     NgbModule,
     SharedModule,
+    CoreModule,
     ReactiveFormsModule,
   ],
   providers: [

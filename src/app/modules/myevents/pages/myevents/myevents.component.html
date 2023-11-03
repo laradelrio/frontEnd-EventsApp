@@ -1,11 +1,22 @@
-<div>
+<div class="d-flex row w-100">
     <h1>My Events</h1>
     <section>
         <h3>Add Event</h3>
-        <button (click)="addEvent()"> Add Event </button>
+        <button (click)="displayAddEventForm()" *ngIf="!displayEventForm"> Add Event </button>
+        <app-shared-event-form *ngIf="displayEventForm"></app-shared-event-form>
     </section>
+
 
     <section>
         <h3> My Events </h3>
     </section>
 </div>
+
+
+<button class="btn btn-lg btn-outline-primary" (click)="open()">
+    Launch Confirmation Modal
+</button>
+
+<popup-modal #popupModal (newPopupEvent)="getPopupValue($event)" [modalStyle]="modalStyle" [modalTitle]="modalTitle"
+    [modalBody]="modalBody" [modalButtonColor]="modalButtonColor">
+</popup-modal>

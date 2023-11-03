@@ -5,6 +5,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { MapViewComponent } from './components/map-view/map-view.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { EventFormComponent } from './components/event-form/event-form.component';
+import { RouterModule } from '@angular/router';
+import { PopupModalComponent } from './components/popup-modal/popup-modal.component';
+
 
 
 
@@ -12,10 +15,14 @@ import { EventFormComponent } from './components/event-form/event-form.component
   declarations: [
     MapViewComponent,
     ModalComponent,
-    EventFormComponent
+    EventFormComponent,
+    PopupModalComponent,
+    
+
   ],
   imports: [
     CommonModule,
+    RouterModule.forChild([]),
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
@@ -27,6 +34,8 @@ import { EventFormComponent } from './components/event-form/event-form.component
     MapViewComponent,
     ModalComponent,
     EventFormComponent,
+    PopupModalComponent,
+    
   ]
 })
 export class SharedModule { }

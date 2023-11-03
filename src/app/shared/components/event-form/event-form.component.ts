@@ -1,7 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable, Subject, finalize } from 'rxjs';
-import { Event } from 'src/app/data/interfaces/interfaces.interface';
+import { finalize } from 'rxjs';
 import { EventDbApiService } from 'src/app/data/services/api/event-db-api.service';
 import { FormService } from 'src/app/shared/services/form.service';
 import { LocationsService } from 'src/app/shared/services/locations.service';
@@ -9,7 +8,7 @@ import { UserApiDbService } from 'src/app/data/services/api/user-db-api.service'
 import { environment } from 'src/environments/environment.development';
 
 @Component({
-  selector: 'app-event-form',
+  selector: 'app-shared-event-form',
   templateUrl: './event-form.component.html',
   styleUrls: ['./event-form.component.scss'],
 })
@@ -26,6 +25,7 @@ export class EventFormComponent {
     private formService: FormService,
     private userService: UserApiDbService,
     private locationService: LocationsService,
+    private eventDbApiService: EventDbApiService,
     private eventApi: EventDbApiService,
   ) {
     this.eventForm = this.fb.group({
@@ -63,9 +63,11 @@ export class EventFormComponent {
   }
 
   onSubmit() {
+    this.eventForm.get('user_id')?.setValue(this.userService.getUserId());
+
     if (this.eventForm.valid) {
-      this.eventForm.get('user_id')?.setValue(this.userService.getUserId());
-      //send form
+      this.eventDbApiService.onEventFormSubmit(this.eventForm);
+      this.eventForm.reset();
     } else {
       this.eventForm.markAllAsTouched();
     }
@@ -110,8 +112,8 @@ export class EventFormComponent {
   //when an address option is clicked
   selectAddress(address: string, i: number) {
     this.eventForm.get('address')?.setValue(address)
-    this.eventForm.get('longitude')?.setValue(this.coordinatesOptions[i][0]),
-      this.eventForm.get('latitude')?.setValue(this.coordinatesOptions[i][1]),
+    this.eventForm.get('longitude')?.setValue((this.coordinatesOptions[i][0]).toString()),
+      this.eventForm.get('latitude')?.setValue((this.coordinatesOptions[i][1]).toString()),
       this.display = false;
   }
 

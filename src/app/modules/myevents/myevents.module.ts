@@ -6,9 +6,11 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { MyeventsComponent } from './pages/myevents/myevents.component';
 
 
+
 @NgModule({
   declarations: [
     MyeventsComponent,
+
   ],
   imports: [
     CommonModule,
@@ -16,4 +18,6 @@ import { MyeventsComponent } from './pages/myevents/myevents.component';
     SharedModule,
   ]
 })
-export class MyeventsModule { }
+export class MyeventsModule { 
+
+}
