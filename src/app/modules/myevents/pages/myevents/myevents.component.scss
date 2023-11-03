@@ -1,0 +1,24 @@
+#concert-img{
+    background-image: url(../../../../../assets/concert.webp);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+@mixin dot-mixin {
+    position: absolute;
+    background-color: #bbb;
+    border-radius: 0%;
+    display: inline-block;
+    background: linear-gradient(to right, rgba(#ff3c14, .8), hsla(255, 60%, 20%, 0) 100%);  
+}
+
+.dot {
+    @include dot-mixin();
+    left: -100px;
+    top: 10%;
+    height: 300px;
+    width: 300px;
+    z-index: -10
+}
+

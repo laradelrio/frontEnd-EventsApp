@@ -35,6 +35,10 @@ export class MyeventsComponent implements OnInit {
     this.modalTitle = 'Event Added '
   }
 
+  hideAddEventForm() {
+    this.displayEventForm = false;
+  }
+
   setModalValues(resp: ApiResp){
     this.modalStyle = (resp.status ? 'modal-style-success' : 'modal-style-danger');
     this.modalTitle += (resp.status ? 'Successfully' : 'Unsuccessfully');

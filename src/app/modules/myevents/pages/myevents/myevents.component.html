@@ -1,22 +1,38 @@
-<div class="d-flex row w-100">
-    <h1>My Events</h1>
-    <section>
-        <h3>Add Event</h3>
-        <button (click)="displayAddEventForm()" *ngIf="!displayEventForm"> Add Event </button>
-        <app-shared-event-form *ngIf="displayEventForm"></app-shared-event-form>
-    </section>
+<div class="container d-flex justify-content-center align-items-center">
+    <div class="dot"></div>
+    <div class="cont w-100 justify-content-center pb-3 pt-3 ">
+        <div class="d-flex row ">
+            <section>
+                <div class="d-flex flex-wrap">
+
+                    <div class="p col-lg-6 col-sm-12 banner-text">
+                        <h1 class="w-100 text-center p-4 pb-0 mt-2 text-primary"> <strong>Have a new event idea?!
+                            </strong></h1>
+                        <p class="w-100 text-center p-4 fs-5">
+                            Post it now and find others to join the fun!
+                        </p>
+                        <div class="d-flex w-100 justify-content-center align-items-center p-4 pt-1">
+                            <button (click)="displayAddEventForm()" *ngIf="!displayEventForm"
+                                class="btn bg-primary text-white pe-5 ps-5 fs-5"> Add Event </button>
+                            <button (click)="hideAddEventForm()" *ngIf="displayEventForm"
+                                class="btn bg-white border border-primary"> Cancel </button>
+                        </div>
+                    </div>
+                    <div class='col-lg-6 col-sm-12' id="concert-img"> </div>
+                </div>
+                <div class='col-lg-6 col-sm-12' id="concert-img"> </div>
+
+                <app-shared-event-form *ngIf="displayEventForm"></app-shared-event-form>
+            </section>
 
 
-    <section>
-        <h3> My Events </h3>
-    </section>
+            <section class="mt-5">
+                <h3> My Events </h3>
+            </section>
+        </div>
+
+    </div>
 </div>
-
-
-<button class="btn btn-lg btn-outline-primary" (click)="open()">
-    Launch Confirmation Modal
-</button>
-
 <popup-modal #popupModal (newPopupEvent)="getPopupValue($event)" [modalStyle]="modalStyle" [modalTitle]="modalTitle"
     [modalBody]="modalBody" [modalButtonColor]="modalButtonColor">
 </popup-modal>
