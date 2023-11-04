@@ -12,17 +12,12 @@
                             Post it now and find others to join the fun!
                         </p>
                         <div class="d-flex w-100 justify-content-center align-items-center p-4 pt-1">
-                            <button (click)="displayAddEventForm()" *ngIf="!displayEventForm"
-                                class="btn bg-primary text-white pe-5 ps-5 fs-5"> Add Event </button>
-                            <button (click)="hideAddEventForm()" *ngIf="displayEventForm"
-                                class="btn bg-white border border-primary"> Cancel </button>
+                            <button routerLink="/myevents/add" class="btn bg-primary text-white pe-5 ps-5 fs-5"> Add Event </button>
                         </div>
                     </div>
                     <div class='col-lg-6 col-sm-12' id="concert-img"> </div>
                 </div>
                 <div class='col-lg-6 col-sm-12' id="concert-img"> </div>
-
-                <app-shared-event-form *ngIf="displayEventForm"></app-shared-event-form>
             </section>
 
 
@@ -33,6 +28,3 @@
 
     </div>
 </div>
-<popup-modal #popupModal (newPopupEvent)="getPopupValue($event)" [modalStyle]="modalStyle" [modalTitle]="modalTitle"
-    [modalBody]="modalBody" [modalButtonColor]="modalButtonColor">
-</popup-modal>

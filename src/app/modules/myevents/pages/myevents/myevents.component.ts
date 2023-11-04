@@ -17,8 +17,7 @@ export class MyeventsComponent implements OnInit {
   modalStyle: string = 'modal-style-primary';
   modalTitle: string = 'Event Added Successfully';
   modalBody: string = 'The event has been created successfully';
-  modalButtonColor: string = 'btn-primary';
-  displayEventForm: boolean = false;
+  modalButtonColor: string = 'btn-primary';  
 
   constructor(
     private eventService: EventDbApiService,
@@ -29,22 +28,11 @@ export class MyeventsComponent implements OnInit {
       .subscribe((resp) => this.setModalValues(resp));
   }
 
-  displayAddEventForm() {
-    this.displayEventForm = true;
-    this.eventService.eventFormSubmitAction = 'add';
-    this.modalTitle = 'Event Added '
-  }
-
-  hideAddEventForm() {
-    this.displayEventForm = false;
-  }
-
   setModalValues(resp: ApiResp){
     this.modalStyle = (resp.status ? 'modal-style-success' : 'modal-style-danger');
     this.modalTitle += (resp.status ? 'Successfully' : 'Unsuccessfully');
     this.modalBody = resp.message;
     this.modalButtonColor = (resp.status ? 'btn-success' : 'btn-danger');
-    this.displayEventForm = false;
     this.openModal();
   }
 

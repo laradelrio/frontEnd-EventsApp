@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { EventDbApiService } from 'src/app/data/services/api/event-db-api.service';
@@ -14,11 +14,18 @@ import { environment } from 'src/environments/environment.development';
 })
 export class EventFormComponent {
 
+  @Input() formTitle!: string;
+  @ViewChild('imageInput')  imgInput!: ElementRef;
+
   todayDate: string = new Date().toISOString().slice(0, 10)
   eventForm: FormGroup;
   display: boolean = false;
   addressOptions: string[] = [];
   coordinatesOptions: number[][] = [];
+  selectedFile!: File;
+  eventImg: any;
+  imageError: string = 'Select an Image';
+  
 
   constructor(
     private fb: FormBuilder,
@@ -35,10 +42,10 @@ export class EventFormComponent {
       description: ['', [Validators.required, Validators.minLength(10)]],
       date: ['', [Validators.required, this.validateDate]],
       time: ['', Validators.required],
-
       address: ['', [Validators.required]],
-      longitude: ['', [Validators.required]],
-      latitude: ['', [Validators.required]],
+      longitude: [0, [Validators.required]],
+      latitude: [0, [Validators.required]],
+      image: [Blob, [Validators.required]],
 
     })
   }
@@ -64,13 +71,16 @@ export class EventFormComponent {
 
   onSubmit() {
     this.eventForm.get('user_id')?.setValue(this.userService.getUserId());
-
+      console.log( this.eventForm.get('address')?.value)
     if (this.eventForm.valid) {
       this.eventDbApiService.onEventFormSubmit(this.eventForm);
       this.eventForm.reset();
+      this.eventImg = undefined;
+      this.imgInput.nativeElement.value ='';      
     } else {
-      this.eventForm.markAllAsTouched();
+      this.eventForm.markAllAsTouched();     
     }
+    
   }
 
   //replace space, / and uppercase from typed address
@@ -80,7 +90,7 @@ export class EventFormComponent {
     const finalText = textWithReplacements.toLowerCase();
     return finalText;
   }
-  
+
   //return the url to search fro the address options
   async getUrl(): Promise<string> {
     let input: {} = this.eventForm.get('address')!.value;
@@ -112,8 +122,8 @@ export class EventFormComponent {
   //when an address option is clicked
   selectAddress(address: string, i: number) {
     this.eventForm.get('address')?.setValue(address)
-    this.eventForm.get('longitude')?.setValue((this.coordinatesOptions[i][0]).toString()),
-      this.eventForm.get('latitude')?.setValue((this.coordinatesOptions[i][1]).toString()),
+    this.eventForm.get('longitude')?.setValue((this.coordinatesOptions[i][0])),
+      this.eventForm.get('latitude')?.setValue((this.coordinatesOptions[i][1])),
       this.display = false;
   }
 
@@ -127,6 +137,45 @@ export class EventFormComponent {
     this.eventForm.get('latitude')?.setValue('');
   }
 
+
+
+  //Image
+  onFileSelected(event: any): void {
+    this.selectedFile = event.target.files[0];
+    this.imgToBlob();
+  }
+
+  imgToBlob(): void {
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.result instanceof ArrayBuffer) {
+        const blob = new Blob([reader.result], { type: this.selectedFile.type });
+        this.eventForm.get('image')?.setValue(blob);
+        this.createImageFromBlob(blob)
+      } else {
+        // Handle the case when 'reader.result' is not an ArrayBuffer (e.g., it could be null)
+        this.imageError = "Invalid file format";
+      }
+    };
+
+    if (this.selectedFile) {
+      reader.readAsArrayBuffer(this.selectedFile);
+    } else {
+      this.imageError = "No file selected";
+    }
+  }
+
+
+  createImageFromBlob(data: Blob) {
+    let reader = new FileReader();
+    reader.addEventListener("load", () => {
+      this.eventImg = reader.result;
+    }, false);
+
+    if (data) {
+      reader.readAsDataURL(data); //initiates the reading operation and converts the contents of the Blob into a data URL
+    }
+  }
 }
 
 

@@ -24,6 +24,7 @@ export class EventDbApiService {
   }
 
   onEventFormSubmit(eventForm: FormGroup) {
+    console.log(eventForm.value)
     if(this.eventFormSubmitAction === 'add') {
       this.registerEvent(eventForm)
         .subscribe(
