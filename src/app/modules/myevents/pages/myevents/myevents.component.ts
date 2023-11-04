@@ -26,7 +26,21 @@ export class MyeventsComponent implements OnInit {
   ngOnInit(): void {
     this.eventService.getEventFormApiResp()
       .subscribe((resp) => this.setModalValues(resp));
+    
+      this.getUserEvents();
   }
+
+  getUserEvents(){
+    this.eventService.getEventsByUser()
+    .subscribe( (resp) => console.log(resp))
+  }
+  
+
+
+
+
+
+
 
   setModalValues(resp: ApiResp){
     this.modalStyle = (resp.status ? 'modal-style-success' : 'modal-style-danger');

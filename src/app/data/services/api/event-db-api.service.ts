@@ -44,6 +44,7 @@ export class EventDbApiService {
 
   getEventsByUser(): Observable<ApiResp> {
     let userId: number = this.userService.getUserId();
+    console.log(userId)
     return this.http.get<ApiResp>(`${this.baseUrl}/events/user/${userId}`);
   }
 
