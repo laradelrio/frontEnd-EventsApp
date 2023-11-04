@@ -1,0 +1,23 @@
+.cont{
+    background: linear-gradient(to top, rgba(#541792, 0.6), rgba(225, 60, 20, 0.6) 100%);    
+}
+
+#event-img{
+    background-image: url("../../../../assets/concert.webp");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 200px;
+}
+
+.category{
+    color: gray;
+}
+
+i{
+    color:#541792;
+}
+
+strong{
+    color:#541792;
+}

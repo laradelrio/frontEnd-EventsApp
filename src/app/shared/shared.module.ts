@@ -6,6 +6,7 @@ import { MapViewComponent } from './components/map-view/map-view.component';
 import { EventFormComponent } from './components/event-form/event-form.component';
 import { RouterModule } from '@angular/router';
 import { PopupModalComponent } from './components/popup-modal/popup-modal.component';
+import { EventCardComponent } from './components/event-card/event-card.component';
 
 
 
@@ -15,6 +16,7 @@ import { PopupModalComponent } from './components/popup-modal/popup-modal.compon
     MapViewComponent,
     EventFormComponent,
     PopupModalComponent,
+    EventCardComponent,
   ],
   imports: [
     CommonModule,
@@ -30,6 +32,7 @@ import { PopupModalComponent } from './components/popup-modal/popup-modal.compon
     MapViewComponent,
     EventFormComponent,
     PopupModalComponent,
+    EventCardComponent
     
   ]
 })
