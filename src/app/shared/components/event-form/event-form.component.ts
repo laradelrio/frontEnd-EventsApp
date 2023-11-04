@@ -137,8 +137,6 @@ export class EventFormComponent {
     this.eventForm.get('latitude')?.setValue('');
   }
 
-
-
   //Image
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];

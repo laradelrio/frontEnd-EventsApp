@@ -16,7 +16,7 @@ export class AddComponent {
   modalTitle: string = '';
   modalBody: string = 'Event Added ';
   modalButtonColor: string = '';
-  formTitle: string = 'Add Event';
+  formTitle: string = 'Add New Event';
 
   constructor(
     private eventService: EventDbApiService,
