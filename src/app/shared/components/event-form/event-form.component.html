@@ -66,16 +66,14 @@
         <!-- Image Input -->
         <label class="mt-3 pb-1" for="image"> <strong>Image</strong> </label>
         <div class="row">
-          <input #imageInput formControlName="image" type="file" id="image" (change)="onFileSelected($event)"
-            class=" border border-light w-50" [ngClass]="(isValidAddress() )? 'form-select is-invalid' : 'form-select'">
-          <p *ngIf="eventForm.get('image')?.valid && eventImg===undefined " class="text-danger form-text">Please select
-            an image</p>
+          <input #imageInput formControlName="image" accept="image/png, image/gif, image/jpeg" type="file" id="image" (change)="onFileSelected($event)"
+            class=" border border-light w-50" [ngClass]="(isValidInput('image') )? 'form-select is-invalid' : 'form-select'">
+          <p *ngIf="isValidInput('image')" class="text-danger form-text">{{imageError}}</p>
         </div>
         <div class="ps-2 pt-1" *ngIf="eventImg !== undefined">
           <p> Image Preview: </p>
           <img [src]="eventImg" alt="image uploaded" width="200px" />
         </div>
-
         <div class="w-100 d-flex justify-content-center align-items-center">
           <button class="btn bg-primary text-white mt-4 pe-5 ps-5 pt-2 pb-2 " type="submit"> Submit </button>
         </div>

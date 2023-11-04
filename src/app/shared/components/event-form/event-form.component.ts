@@ -24,7 +24,7 @@ export class EventFormComponent {
   coordinatesOptions: number[][] = [];
   selectedFile!: File;
   eventImg: any;
-  imageError: string = 'Select an Image';
+  imageError: string = '';
   
 
   constructor(
@@ -45,7 +45,7 @@ export class EventFormComponent {
       address: ['', [Validators.required]],
       longitude: [0, [Validators.required]],
       latitude: [0, [Validators.required]],
-      image: [Blob, [Validators.required]],
+      image: [, [Validators.required]],
 
     })
   }
@@ -76,9 +76,11 @@ export class EventFormComponent {
       this.eventDbApiService.onEventFormSubmit(this.eventForm);
       this.eventForm.reset();
       this.eventImg = undefined;
-      this.imgInput.nativeElement.value ='';      
+      this.imgInput.nativeElement.value ='';   
+      this.imageError = '';
     } else {
-      this.eventForm.markAllAsTouched();     
+      this.eventForm.markAllAsTouched();
+      this.imageError = 'Select an image';  
     }
     
   }
