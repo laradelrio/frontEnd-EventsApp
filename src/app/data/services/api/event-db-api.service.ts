@@ -47,6 +47,11 @@ export class EventDbApiService {
     return this.http.get<EventAPIResp>(`${this.baseUrl}/events/user/${userId}`);
   }
 
+  getAllEvents(): Observable<EventAPIResp> {
+    return this.http.get<EventAPIResp>(`${this.baseUrl}/events`);
+  }
+  
+
   registerEvent(eventForm: FormGroup): Observable<ApiResp> {
     return this.http.post<ApiResp>(`${this.baseUrl}/events/add`, eventForm.value);
   }
