@@ -11,6 +11,8 @@ import { EventCardComponent } from './components/event-card/event-card.component
 
 
 
+
+
 @NgModule({
   declarations: [
     MapViewComponent,
@@ -24,6 +26,7 @@ import { EventCardComponent } from './components/event-card/event-card.component
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
+   
   ], exports: [
     CommonModule,
     ReactiveFormsModule,

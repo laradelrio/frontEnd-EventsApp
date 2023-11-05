@@ -1,4 +1,5 @@
 import { Time } from "@angular/common";
+import { Address } from './autofill.interface';
 
 export interface Register{
     username: string,
@@ -43,13 +44,55 @@ export interface UserData{
     status: boolean;
 }
 
-export interface Event{
-    name: string;
-    userId: number;
-    category: string,
+export interface EventAPIResp {
+    status: boolean;
+    data:   Event[];
+}
+
+export interface Event {
+    id_event:    number;
+    name:        string;
+    user_id:     number;
+    category:    string;
     description: string;
-    date: string;
-    time: string;
-    location:string;
+    date:        Date;
+    time:        string;
+    address:     string;
+    longitude:   number;
+    latitude:    number;
+    image:       string;
+    created_at:  Date;
+    updated_at: Date;
+    username:    string;
+}
+
+export interface IbbAPIResp {
+    data:    ImgData;
+    success: boolean;
+    status:  number;
+}
+
+export interface ImgData {
+    id:          string;
+    title:       string;
+    url_viewer:  string;
+    url:         string;
+    display_url: string;
+    width:       number;
+    height:      number;
+    size:        number;
+    time:        number;
+    expiration:  number;
+    image:       Image;
+    thumb:       Image;
+    delete_url:  string;
+}
+
+export interface Image {
+    filename:  string;
+    name:      string;
+    mime:      string;
+    extension: string;
+    url:       string;
 }
 

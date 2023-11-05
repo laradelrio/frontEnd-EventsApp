@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { EventDbApiService } from 'src/app/data/services/api/event-db-api.service';
@@ -6,6 +6,10 @@ import { FormService } from 'src/app/shared/services/form.service';
 import { LocationsService } from 'src/app/shared/services/locations.service';
 import { UserApiDbService } from 'src/app/data/services/api/user-db-api.service';
 import { environment } from 'src/environments/environment.development';
+import { Router } from '@angular/router';
+
+
+
 
 @Component({
   selector: 'app-shared-event-form',
@@ -15,7 +19,7 @@ import { environment } from 'src/environments/environment.development';
 export class EventFormComponent {
 
   @Input() formTitle!: string;
-  @ViewChild('imageInput')  imgInput!: ElementRef;
+  @ViewChild('imageInput')  imgInput!: HTMLInputElement;
 
   todayDate: string = new Date().toISOString().slice(0, 10)
   eventForm: FormGroup;
@@ -23,9 +27,6 @@ export class EventFormComponent {
   addressOptions: string[] = [];
   coordinatesOptions: number[][] = [];
   selectedFile!: File;
-  eventImg: any;
-  imageError: string = '';
-  
 
   constructor(
     private fb: FormBuilder,
@@ -34,6 +35,7 @@ export class EventFormComponent {
     private locationService: LocationsService,
     private eventDbApiService: EventDbApiService,
     private eventApi: EventDbApiService,
+  
   ) {
     this.eventForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
@@ -45,9 +47,10 @@ export class EventFormComponent {
       address: ['', [Validators.required]],
       longitude: [0, [Validators.required]],
       latitude: [0, [Validators.required]],
-      image: [, [Validators.required]],
+      image: ['', [Validators.required]],
 
     })
+
   }
 
   validateDate(control: AbstractControl): { [key: string]: any } | null {
@@ -71,18 +74,15 @@ export class EventFormComponent {
 
   onSubmit() {
     this.eventForm.get('user_id')?.setValue(this.userService.getUserId());
-      console.log( this.eventForm.get('address')?.value)
     if (this.eventForm.valid) {
       this.eventDbApiService.onEventFormSubmit(this.eventForm);
       this.eventForm.reset();
-      this.eventImg = undefined;
-      this.imgInput.nativeElement.value ='';   
-      this.imageError = '';
+      this.chooseFileTouched = false;
+      this.imgInput.value = '';
     } else {
       this.eventForm.markAllAsTouched();
-      this.imageError = 'Select an image';  
+      this.chooseFileTouched = true;
     }
-    
   }
 
   //replace space, / and uppercase from typed address
@@ -138,44 +138,27 @@ export class EventFormComponent {
     this.eventForm.get('longitude')?.setValue('');
     this.eventForm.get('latitude')?.setValue('');
   }
-
+  chooseFileTouched: boolean = false;
   //Image
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
-    this.imgToBlob();
-  }
-
-  imgToBlob(): void {
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (reader.result instanceof ArrayBuffer) {
-        const blob = new Blob([reader.result], { type: this.selectedFile.type });
-        this.eventForm.get('image')?.setValue(blob);
-        this.createImageFromBlob(blob)
-      } else {
-        // Handle the case when 'reader.result' is not an ArrayBuffer (e.g., it could be null)
-        this.imageError = "Invalid file format";
+    
+    this.eventDbApiService.uploadImg(this.selectedFile)
+    .subscribe( (res) => {
+      if(res.success){
+        this.eventForm.get('image')?.setValue(res.data.display_url)
       }
-    };
+    })
 
-    if (this.selectedFile) {
-      reader.readAsArrayBuffer(this.selectedFile);
-    } else {
-      this.imageError = "No file selected";
-    }
+  }
+
+  chooseImgTouched(){
+    this.chooseFileTouched = true;
   }
 
 
-  createImageFromBlob(data: Blob) {
-    let reader = new FileReader();
-    reader.addEventListener("load", () => {
-      this.eventImg = reader.result;
-    }, false);
 
-    if (data) {
-      reader.readAsDataURL(data); //initiates the reading operation and converts the contents of the Blob into a data URL
-    }
-  }
+
+
 }
-
 

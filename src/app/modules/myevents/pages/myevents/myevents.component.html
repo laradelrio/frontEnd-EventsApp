@@ -23,7 +23,9 @@
 
             <section class="mt-5">
                 <h3> My Events </h3>
-                <app-shared-event-card></app-shared-event-card>
+                <div *ngFor=" let event of eventsByUser">
+                    <app-shared-event-card [event]="event"></app-shared-event-card>
+                </div>
             </section>
         </div>
 

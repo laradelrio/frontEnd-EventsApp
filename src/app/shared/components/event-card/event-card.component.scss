@@ -2,8 +2,11 @@
     background: linear-gradient(to top, rgba(#541792, 0.6), rgba(225, 60, 20, 0.6) 100%);    
 }
 
+.card{
+    width: 75%
+}
+
 #event-img{
-    background-image: url("../../../../assets/concert.webp");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -25,4 +28,15 @@ strong{
 #bottom-line{
     background-color: #834abc ;
     height: 1rem;
+}
+
+#outputContent {
+    white-space: pre-line;
+}
+
+
+@media (max-width: 576px){
+    .card{
+        width: 100%
+    }
 }

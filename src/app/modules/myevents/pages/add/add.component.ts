@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { ApiResp } from 'src/app/data/interfaces/interfaces.interface';
 import { EventDbApiService } from 'src/app/data/services/api/event-db-api.service';
 import { PopupModalComponent } from 'src/app/shared/components/popup-modal/popup-modal.component';
@@ -20,6 +21,7 @@ export class AddComponent {
 
   constructor(
     private eventService: EventDbApiService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -29,6 +31,7 @@ export class AddComponent {
       this.eventService.eventFormSubmitAction = 'add';
       this.modalTitle = 'Event Added '
   }
+
 
   setModalValues(resp: ApiResp){
     this.modalStyle = (resp.status ? 'modal-style-success' : 'modal-style-danger');
@@ -40,6 +43,10 @@ export class AddComponent {
 
   async openModal() {
     return await this.modalComponent.open();
+  }
+
+  getPopupValue(value: any) {
+    this.router.navigate(['/myevents']);  
   }
 
   open() {

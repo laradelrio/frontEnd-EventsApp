@@ -1,8 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PopupModalComponent } from 'src/app/shared/components/popup-modal/popup-modal.component';
 import { EventDbApiService } from 'src/app/data/services/api/event-db-api.service';
-import { FormService } from 'src/app/shared/services/form.service';
-import { ApiResp } from 'src/app/data/interfaces/interfaces.interface';
+import { ApiResp, Event } from 'src/app/data/interfaces/interfaces.interface';
 
 
 @Component({
@@ -18,6 +17,7 @@ export class MyeventsComponent implements OnInit {
   modalTitle: string = 'Event Added Successfully';
   modalBody: string = 'The event has been created successfully';
   modalButtonColor: string = 'btn-primary';  
+  eventsByUser: Event[] = [];
 
   constructor(
     private eventService: EventDbApiService,
@@ -32,16 +32,9 @@ export class MyeventsComponent implements OnInit {
 
   getUserEvents(){
     this.eventService.getEventsByUser()
-    .subscribe( (resp) => console.log(resp))
+    .subscribe( (res) => this.eventsByUser = res.data)
   }
   
-
-
-
-
-
-
-
   setModalValues(resp: ApiResp){
     this.modalStyle = (resp.status ? 'modal-style-success' : 'modal-style-danger');
     this.modalTitle += (resp.status ? 'Successfully' : 'Unsuccessfully');
