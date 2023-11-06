@@ -1,0 +1,14 @@
+.nav-ul{
+    margin-top: 10px;
+    letter-spacing: 4px;
+}
+
+.nav-item{
+    margin-right: 2rem;
+    text-transform: uppercase;
+
+    &:hover{
+        font-size: large;
+        font-weight: bold;
+    }
+}

@@ -8,6 +8,16 @@ body {
     font-family: 'League Spartan', sans-serif !important;
 }
 
+.navbar > .container, .navbar > .container-fluid, .navbar > .container-sm, .navbar > .container-md, .navbar > .container-lg, .navbar > .container-xl, .navbar > .container-xxl {
+    display: flex;
+    flex-wrap: inherit;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 300;
+    padding-bottom: 20px;
+    background: white;
+}
+
 //weekdays in date picker
 .ngb-dp-weekday {
     color: $primary !important;

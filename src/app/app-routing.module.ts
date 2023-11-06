@@ -13,6 +13,7 @@ import { AccountModule } from './modules/account/account.module';
 
 import { MyeventsModule } from './modules/myevents/myevents.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { EventModule } from './modules/event/event.module';
 
 const routes: Routes = [
   {
@@ -46,6 +47,11 @@ const routes: Routes = [
       {
         path: 'myevents',
         loadChildren: () => import('./modules/myevents/myevents.module').then((m): typeof MyeventsModule => m.MyeventsModule),
+        canActivate: [authGuardGuard]
+      },
+      {
+        path: 'event',
+        loadChildren: () => import('./modules/event/event.module').then((m): typeof EventModule => m.EventModule),
         canActivate: [authGuardGuard]
       },
     ]

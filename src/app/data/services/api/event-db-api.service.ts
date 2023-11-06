@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, finalize, map } from 'rxjs';
 import { Address } from '../../interfaces/autofill.interface';
 import { FormGroup } from '@angular/forms';
-import { ApiResp, EventAPIResp, IbbAPIResp } from '../../interfaces/interfaces.interface';
+import { ApiResp, Event, EventAPIResp, IbbAPIResp } from '../../interfaces/interfaces.interface';
 import { Constants } from '../../constants/constants';
 import { UserApiDbService } from './user-db-api.service';
 
@@ -15,6 +15,7 @@ export class EventDbApiService {
   baseUrl: string = Constants.DB_API_ENDPOINT;
   eventFormSubmitAction: string = "";
   eventFormApiResp: BehaviorSubject<ApiResp>;
+  event!: Event;
 
   constructor(
     private http: HttpClient,
