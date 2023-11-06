@@ -15,11 +15,27 @@ body {
 
 /* MapBox popup*/
 .mapboxgl-popup-content {
-    color: $primary !important;
-    border: solid 1px #541690 !important;
-    background-color:  #ffffffce ;
-    padding:2px;
-    font-weight: bold;
+    color: white !important;
+    background-color:  $primary ;
+    padding: 6px;
+    font-family: 'League Spartan', sans-serif !important;
+    max-width: 150px;
+    border-radius: 10px;
+    
+
+    p{
+        margin-bottom: 0px !important;
+    }
+
+    i{
+        color:white;
+        max-width:20%
+    }
+    .mapPopupText{
+        background-color:#531690b5;
+        color: white;
+        padding: 0px 10px 0px 10px;
+    }
 }
 
 .mapboxgl-popup-close-button {

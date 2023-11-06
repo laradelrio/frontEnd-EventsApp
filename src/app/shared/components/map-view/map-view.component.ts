@@ -15,12 +15,12 @@ export class MapViewComponent implements AfterViewInit {
 
   @ViewChild('mapDiv') mapDivElement!: ElementRef;
 
-    events: {coordinates: [number, number], title: string}[] = []
+  events: { coordinates: [number, number], title: string }[] = []
 
   constructor(
     private locationService: LocationsService,
     private eventService: EventDbApiService,
-    ) {
+  ) {
 
   }
 
@@ -35,40 +35,45 @@ export class MapViewComponent implements AfterViewInit {
       zoom: 12, // starting zoom
     });
 
-   this.getPoints(map)
+    this.getPoints(map)
 
   }
 
-  getPoints(map:Map){
+  getPoints(map: Map) {
     this.eventService.getAllEvents()
-    .pipe(
-      finalize( () => this.addPopup(map))
-    )
-    .subscribe( (resp) => resp.data.forEach( (event) => {
-      this.events.push({coordinates: [event.longitude, event.latitude], title: event.name})
-    }))
-  
+      .pipe(
+        finalize(() => this.addPopup(map))
+      )
+      .subscribe((resp) => resp.data.forEach((event) => {
+        this.events.push({ coordinates: [event.longitude, event.latitude], title: event.name })
+      }))
+
   }
 
 
   //add popup 
-  addPopup(map: Map){
-  this.events.forEach((event) =>{
-  let popup = new Popup({ closeOnClick: false })
-      .setLngLat(event.coordinates)
-      .setHTML(`<p routerLink='/home'>${event.title}</p>`)
-      .addTo(map)
+  addPopup(map: Map) {
+    this.events.forEach((event) => {
+      let popup = new Popup({ closeOnClick: false })
+        .setLngLat(event.coordinates)
+        .setHTML(` <p class='mapPopupText'>${event.title} <i class="fa-solid fa-circle-info ps-3"></i> </p> `)
+        .addTo(map)
 
       popup.getElement().addEventListener('click', eventt => {
         this.openModal(event.title)
+      });
+
+      const mapPopup = document.getElementsByClassName("mapPopupText")[0];
+      mapPopup.addEventListener("click", () => {
+
+        console.log(`${event.title}`);
       });
     })
   }
 
   //open a modal with the event information or REDIRECT TO EVENT INFO
-  openModal(word: string){
-    console.log(word);   
+  openModal(word: string) {
+    console.log(word);
   }
 
 }
-  
