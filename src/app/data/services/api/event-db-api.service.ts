@@ -48,6 +48,11 @@ export class EventDbApiService {
     return this.http.get<EventAPIResp>(`${this.baseUrl}/events/user/${userId}`);
   }
 
+  getEventsById(eventId: string): Observable<EventAPIResp> {
+    let id = parseInt(eventId);
+    return this.http.get<EventAPIResp>(`${this.baseUrl}/events/event/${id}`);
+  }
+
   getAllEvents(): Observable<EventAPIResp> {
     return this.http.get<EventAPIResp>(`${this.baseUrl}/events`);
   }
