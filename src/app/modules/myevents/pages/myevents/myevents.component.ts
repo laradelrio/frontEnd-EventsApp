@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { PopupModalComponent } from 'src/app/shared/components/popup-modal/popup-modal.component';
 import { EventDbApiService } from 'src/app/data/services/api/event-db-api.service';
 import { ApiResp, Event } from 'src/app/data/interfaces/interfaces.interface';
+import { finalize } from 'rxjs';
 
 
 
@@ -17,35 +18,32 @@ export class MyeventsComponent implements OnInit {
   modalStyle: string = 'modal-style-primary';
   modalTitle: string = 'Event Added Successfully';
   modalBody: string = 'The event has been created successfully';
-  modalButtonColor: string = 'btn-primary'; 
-  
+  modalButtonColor: string = 'btn-primary';
+
   eventsByUser: Event[] = [];
   deleteEventId: number = 0;
   isWarningModal: boolean = false;
-  delApiResp! : ApiResp;
+  delApiResp!: ApiResp;
 
   constructor(
     private eventService: EventDbApiService,
   ) { }
 
   ngOnInit(): void {
-    // this.eventService.getEventFormApiResp()
-    //   .subscribe((resp) => this.setModalValues(resp));
-    
-      this.getUserEvents();
+    this.getUserEvents();
   }
 
-  getUserEvents(){
+  getUserEvents() {
     this.eventService.getEventsByUser()
-    .subscribe( (res) => this.eventsByUser = res.data)
+      .subscribe((res) => this.eventsByUser = res.data)
   }
-  
-  onDeleteEvent(eventId: number){
+
+  onDeleteEvent(eventId: number) {
     this.deleteEventId = eventId;
     this.setDeleteWarningModal();
   }
 
-  setDeleteWarningModal(){
+  setDeleteWarningModal() {
     this.isWarningModal = true;
     this.modalStyle = 'modal-style-danger';
     this.modalTitle = 'Delete Event'
@@ -63,23 +61,27 @@ export class MyeventsComponent implements OnInit {
   }
 
   getPopupValue(value: any) {
-    if( value == 'Save click' && this.isWarningModal === true ){
-          this.eventService.deleteEvent(this.deleteEventId)
-        .subscribe( (res) =>  this.delApiResp = res )
-    } if (value === 'Save click') {
-      this.setModalValues(this.delApiResp);
-      this.getUserEvents();
+    if (value == 'Save click' && this.isWarningModal === true) {
+      this.eventService.deleteEvent(this.deleteEventId)
+        .pipe(
+          finalize(() => {
+            this.isWarningModal = false;
+            this.setModalValues(this.delApiResp)
+          }))
+        .subscribe((res) => this.delApiResp = res)
+    } else if (value === 'Save click') {
+      this.getUserEvents()
     }
   }
 
-  setModalValues(resp: ApiResp){
+  setModalValues(resp: ApiResp) {
     this.isWarningModal = false;
     this.modalStyle = (resp.status ? 'modal-style-success' : 'modal-style-danger');
     this.modalTitle += (resp.status ? 'Successfully' : 'Unsuccessfully');
     this.modalBody = resp.message;
     this.modalButtonColor = (resp.status ? 'btn-success' : 'btn-danger');
     this.openModal();
-  } 
+  }
 
 }
 
