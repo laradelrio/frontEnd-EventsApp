@@ -28,6 +28,7 @@
     "@ng-bootstrap/ng-bootstrap": "^15.1.2",
     "@popperjs/core": "^2.11.6",
     "bootstrap": "^5.2.3",
+    "chart.js": "^4.4.0",
     "fullcalendar": "^6.1.9",
     "jwt-decode": "^3.1.2",
     "mapbox-gl": "^2.15.0",

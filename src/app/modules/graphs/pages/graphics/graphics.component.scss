@@ -1,0 +1,9 @@
+#chart-div {
+    width: 75% !important
+}
+
+@media (max-width: 768px) {
+    #chart-div {
+        width: 100% !important
+    }
+}
