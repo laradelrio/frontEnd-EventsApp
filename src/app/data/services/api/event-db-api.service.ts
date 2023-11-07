@@ -6,6 +6,7 @@ import { FormGroup } from '@angular/forms';
 import { ApiResp, CountApiResp, Event, EventAPIResp, IbbAPIResp } from '../../interfaces/interfaces.interface';
 import { Constants } from '../../constants/constants';
 import { UserApiDbService } from './user-db-api.service';
+import { environment } from './../../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,8 @@ import { UserApiDbService } from './user-db-api.service';
 export class EventDbApiService {
 
   baseUrl: string = Constants.DB_API_ENDPOINT;
+  ibbApiUrl: string = Constants.IBB_API_URL;
+  ibbApiKey: string = environment.ibbApiKey;
   eventFormSubmitAction: string = "";
   eventFormApiResp: BehaviorSubject<ApiResp>;
   event!: Event;
@@ -69,6 +72,10 @@ export class EventDbApiService {
     const formData = new FormData();
     formData.append('image', file)
     return this.http
-      .post<IbbAPIResp>('https://api.imgbb.com/1/upload', formData, { params: { key: '659ce9e539f9b7852125e0213ef5e114' } })
+      .post<IbbAPIResp>(this.ibbApiUrl, formData, { params: { key: this.ibbApiKey } })
+  }
+
+  deleteEvent(id: number): Observable<ApiResp>{
+  return this.http.delete<ApiResp>(`${this.baseUrl}/events/delete/${id}`)
   }
 }

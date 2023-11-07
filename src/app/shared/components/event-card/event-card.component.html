@@ -1,34 +1,32 @@
 <div class="container d-flex justify-content-center align-items-center">
-    <!-- <div class="cont d-flex row w-100 justify-content-center rounded shadow pb-1 pt-2 "> -->
-        <div class="bg-white shadow mb-2 mt-0 form-div p-0 card">
-            <div style="background-image: url('{{event.image}}');" id="event-img" class=" rounded-top"></div>
-            <div class="p-4">
+    <div class="bg-white shadow mb-2 mt-0 form-div p-0 card">
+        <div style="background-image: url('{{event.image}}');" id="event-img" class=" rounded-top"></div>
+        <div class="p-4">
 
-                <div class="d-flex flex-wrap justify-content-between">
+            <div class="d-flex flex-wrap justify-content-between">
                 <h2>{{event.name}}</h2>
                 <div *ngIf='showEditDel()' id="edit-del-div">
-                    <button class="btn btn-primary pe-3 ps-3 me-2"> Edit  <i class="fa-solid fa-pen-to-square ps-2"></i></button>
-                    <button class="btn btn-danger"> Delete <i class="fa-solid fa-trash-can ps-2"></i> </button>
+                    <button class="btn btn-primary pe-3 ps-3 me-2"> Edit <i
+                            class="fa-solid fa-pen-to-square ps-2"></i></button>
+                    <button class="btn btn-danger" (click)="onDeleteEvent()"> Delete <i class="fa-solid fa-trash-can ps-2"></i> </button>
                 </div>
             </div>
 
-
-                <div class="row">
-                    <p class="fs-5 category"> <strong>Organizer</strong> {{event.username}}</p>
-                    <p> <i class="fa-solid fa-location-dot pe-3"></i> <strong> Location: </strong> {{event.address}}</p>
-                    <p> <strong> Category: </strong> {{event.category}}</p>
-                </div>
-                <div class="bg-light d-flex col p-3 pb-1 rounded">
-                    <p class="pe-4"><i class="fa-solid fa-calendar-days pe-3"></i> <strong>Date: </strong>{{date()}}</p>
-                    <p> <i class="fa-solid fa-clock pe-3"></i> <strong>Time: </strong> {{time()}} </p>
-
-                </div>
-                <p *ngIf="!readMore" class="pt-4 ps-1" (click)="showDescription()"> <strong> Read more... </strong></p>
-                <p *ngIf="readMore" class="pt-4 ps-1" (click)="hideDescription()"> <strong> See less... </strong> </p>
-                <p *ngIf="readMore" id="outputContent"> {{event.description}}</p>
+            <div class="row">
+                <p class="fs-5 category"> <strong>Organizer</strong> {{event.username}}</p>
+                <p> <i class="fa-solid fa-location-dot pe-3"></i> <strong> Location: </strong> {{event.address}}</p>
+                <p> <strong> Category: </strong> {{event.category}}</p>
             </div>
-            <div id='bottom-line' class='rounded-bottom' width="100%"></div>
+            <div class="bg-light d-flex col p-3 pb-1 rounded">
+                <p class="pe-4"><i class="fa-solid fa-calendar-days pe-3"></i> <strong>Date: </strong>{{date()}}</p>
+                <p> <i class="fa-solid fa-clock pe-3"></i> <strong>Time: </strong> {{time()}} </p>
 
-        <!-- </div> -->
+            </div>
+            <p *ngIf="!readMore" class="pt-4 ps-1" (click)="showDescription()"> <strong> Read more... </strong></p>
+            <p *ngIf="readMore" class="pt-4 ps-1" (click)="hideDescription()"> <strong> See less... </strong> </p>
+            <p *ngIf="readMore" id="outputContent"> {{event.description}}</p>
+        </div>
+        <div id='bottom-line' class='rounded-bottom' width="100%"></div>
+
     </div>
 </div>
