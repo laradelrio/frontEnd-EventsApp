@@ -96,3 +96,12 @@ export interface Image {
     url:       string;
 }
 
+export interface CountApiResp {
+    status: boolean;
+    data:   Count[];
+}
+
+export interface Count {
+    name_category: string;
+    amount: number; 
+}

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, finalize, map } from 'rxjs';
 import { Address } from '../../interfaces/autofill.interface';
 import { FormGroup } from '@angular/forms';
-import { ApiResp, Event, EventAPIResp, IbbAPIResp } from '../../interfaces/interfaces.interface';
+import { ApiResp, CountApiResp, Event, EventAPIResp, IbbAPIResp } from '../../interfaces/interfaces.interface';
 import { Constants } from '../../constants/constants';
 import { UserApiDbService } from './user-db-api.service';
 
@@ -57,6 +57,9 @@ export class EventDbApiService {
     return this.http.get<EventAPIResp>(`${this.baseUrl}/events`);
   }
   
+  getCountByCategory(): Observable<CountApiResp>{
+    return this.http.get<CountApiResp>(`${this.baseUrl}/events/categories/count`);
+  }
 
   registerEvent(eventForm: FormGroup): Observable<ApiResp> {
     return this.http.post<ApiResp>(`${this.baseUrl}/events/add`, eventForm.value);
