@@ -3,7 +3,16 @@
         <div class="bg-white shadow mb-2 mt-0 form-div p-0 card">
             <div style="background-image: url('{{event.image}}');" id="event-img" class=" rounded-top"></div>
             <div class="p-4">
+
+                <div class="d-flex flex-wrap justify-content-between">
                 <h2>{{event.name}}</h2>
+                <div *ngIf='showEditDel()' id="edit-del-div">
+                    <button class="btn btn-primary pe-3 ps-3 me-2"> Edit  <i class="fa-solid fa-pen-to-square ps-2"></i></button>
+                    <button class="btn btn-danger"> Delete <i class="fa-solid fa-trash-can ps-2"></i> </button>
+                </div>
+            </div>
+
+
                 <div class="row">
                     <p class="fs-5 category"> <strong>Organizer</strong> {{event.username}}</p>
                     <p> <i class="fa-solid fa-location-dot pe-3"></i> <strong> Location: </strong> {{event.address}}</p>
