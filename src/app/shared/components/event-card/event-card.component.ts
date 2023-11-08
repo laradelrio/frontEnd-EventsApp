@@ -56,5 +56,10 @@ export class EventCardComponent implements OnInit {
     this.deleteEvent.emit(this.event.id_event);
   }
 
+  onUpdateEvent(){
+    this.eventService.event = this.event;
+    this.eventService.eventFormSubmitAction = 'update';
+  }
+
 
 }

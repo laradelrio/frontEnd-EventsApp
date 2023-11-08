@@ -27,13 +27,15 @@ export class EventDbApiService {
     this.eventFormApiResp = new BehaviorSubject<ApiResp>({ status: false, message: '' });
   }
 
-  onEventFormSubmit(eventForm: FormGroup) {
-    // console.log(eventForm.value)
+  onEventFormSubmit(eventForm: FormGroup, eventId: number) {
     if (this.eventFormSubmitAction === 'add') {
       this.registerEvent(eventForm)
         .subscribe(
-          (resp: ApiResp) => { this.eventFormApiResp.next(resp), console.log(resp) });
+          (resp: ApiResp) => { this.eventFormApiResp.next(resp) });
     } else if (this.eventFormSubmitAction === 'update') {
+      this.updateEvent(eventId, eventForm)
+      .subscribe(
+        (resp: ApiResp) => { this.eventFormApiResp.next(resp), console.log(resp) });
     }
   }
 
@@ -73,6 +75,10 @@ export class EventDbApiService {
     formData.append('image', file)
     return this.http
       .post<IbbAPIResp>(this.ibbApiUrl, formData, { params: { key: this.ibbApiKey } })
+  }
+
+  updateEvent(eventId: number, form: FormGroup): Observable<ApiResp>{
+    return this.http.put<ApiResp>(`${this.baseUrl}/events/update/${eventId}`, form.value)
   }
 
   deleteEvent(id: number): Observable<ApiResp>{

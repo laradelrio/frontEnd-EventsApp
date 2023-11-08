@@ -6,7 +6,7 @@
             <div class="d-flex flex-wrap justify-content-between">
                 <h2>{{event.name}}</h2>
                 <div *ngIf='showEditDel()' id="edit-del-div">
-                    <button class="btn btn-primary pe-3 ps-3 me-2"> Edit <i
+                    <button class="btn btn-primary pe-3 ps-3 me-2" routerLink="/myevents/update" (click)="onUpdateEvent()"> Edit <i
                             class="fa-solid fa-pen-to-square ps-2"></i></button>
                     <button class="btn btn-danger" (click)="onDeleteEvent()"> Delete <i class="fa-solid fa-trash-can ps-2"></i> </button>
                 </div>

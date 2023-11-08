@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { EventDbApiService } from 'src/app/data/services/api/event-db-api.service';
@@ -10,13 +10,12 @@ import { Router } from '@angular/router';
 
 
 
-
 @Component({
   selector: 'app-shared-event-form',
   templateUrl: './event-form.component.html',
   styleUrls: ['./event-form.component.scss'],
 })
-export class EventFormComponent {
+export class EventFormComponent implements OnInit{
 
   @Input() formTitle!: string;
   @ViewChild('imageInput')  imgInput!: HTMLInputElement;
@@ -27,6 +26,7 @@ export class EventFormComponent {
   addressOptions: string[] = [];
   coordinatesOptions: number[][] = [];
   selectedFile!: File;
+  existingEventId: number = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -48,9 +48,13 @@ export class EventFormComponent {
       longitude: [0, [Validators.required]],
       latitude: [0, [Validators.required]],
       image: ['', [Validators.required]],
-
     })
+  }
 
+  ngOnInit(): void {
+    if(this.eventDbApiService.eventFormSubmitAction === 'update'){
+      this.fillInForm();
+    }
   }
 
   validateDate(control: AbstractControl): { [key: string]: any } | null {
@@ -75,7 +79,7 @@ export class EventFormComponent {
   onSubmit() {
     this.eventForm.get('user_id')?.setValue(this.userService.getUserId());
     if (this.eventForm.valid) {
-      this.eventDbApiService.onEventFormSubmit(this.eventForm);
+      this.eventDbApiService.onEventFormSubmit(this.eventForm, this.existingEventId);
       this.eventForm.reset();
       this.chooseFileTouched = false;
       this.imgInput.value = '';
@@ -139,6 +143,7 @@ export class EventFormComponent {
     this.eventForm.get('latitude')?.setValue('');
   }
   chooseFileTouched: boolean = false;
+
   //Image
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
@@ -156,9 +161,21 @@ export class EventFormComponent {
     this.chooseFileTouched = true;
   }
 
-
-
-
+  fillInForm(){
+    let event = this.eventDbApiService.event;
+    this.existingEventId = event.id_event;
+    this.eventForm.get('name')?.setValue(`${event.name}`);
+    this.eventForm.get('user_id')?.setValue(`${event.user_id}`);
+    this.eventForm.get('category')?.setValue(`${event.category}`);
+    this.eventForm.get('description')?.setValue(`${event.description}`);
+    let date = (event.date).toString().slice(0, 10)
+    this.eventForm.get('date')?.setValue(date);
+    this.eventForm.get('time')?.setValue(`${event.time}`);
+    this.eventForm.get('address')?.setValue(`${event.address}`);
+    this.eventForm.get('longitude')?.setValue(`${event.longitude}`);
+    this.eventForm.get('latitude')?.setValue(`${event.latitude}`);
+    this.eventForm.get('image')?.setValue(`${event.image}`);
+  }
 
 }
 
