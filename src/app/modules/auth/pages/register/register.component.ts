@@ -55,7 +55,7 @@ export class RegisterComponent {
       .pipe(
         finalize(()=>{
           if(this.respStatus){
-            this.router.navigate(['/login'])
+            this.router.navigate(['/auth/login'])
           }
         })       
       )

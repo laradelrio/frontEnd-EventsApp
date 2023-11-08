@@ -123,31 +123,29 @@ export class AccountComponent implements OnInit {
     this.modalTitle = 'Delete Account'
     this.modalBody = 'Deleting your account is permanent. Your account and all the events you created will be permanently deleted.';
     this.modalButtonColor = 'btn-danger';
-    this.openModal();
     this.deleteModalOpened = true;
+    this.openModal();
   }
 
   deleteAccount() {
     let respStatus: boolean;
     this.userApiDbService.deleteUser()
-    .pipe(
-      finalize( () => {
-        if(respStatus){
-          localStorage.removeItem('token');
-          this.router.navigate(['/home']);
-        }
-        this.deleteModalOpened = false;
-      })
-    )
-    .subscribe( (res) => {this.userApiDbService.accountFormApiResp.next(res), respStatus = res.status});
-
+      .pipe(
+        finalize(() => {
+          if (respStatus) {
+            localStorage.removeItem('token');
+            this.router.navigate(['/home']);
+          }
+        })
+      )
+      .subscribe((res) => { respStatus = res.status });
   }
 
   getPopupValue(value: any) {
     if (value == 'Save click' && this.deleteModalOpened) {
+      this.deleteModalOpened = false;
       this.deleteAccount();
     }
-
   }
 
   //MODAL
