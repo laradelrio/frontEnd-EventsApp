@@ -46,7 +46,7 @@ export class MyeventsComponent implements OnInit {
   setDeleteWarningModal() {
     this.isWarningModal = true;
     this.modalStyle = 'modal-style-danger';
-    this.modalTitle = 'Delete Event'
+    this.modalTitle = 'Delete Event '
     this.modalBody = `Deleting your event is permanent. Your event and all it's details will be permanently deleted.`;
     this.modalButtonColor = 'btn-danger';
     this.openModal();
