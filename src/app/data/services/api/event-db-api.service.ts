@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, finalize, map } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Address } from '../../interfaces/autofill.interface';
 import { FormGroup } from '@angular/forms';
 import { ApiResp, CountApiResp, Event, EventAPIResp, IbbAPIResp } from '../../interfaces/interfaces.interface';
@@ -17,30 +17,13 @@ export class EventDbApiService {
   ibbApiUrl: string = Constants.IBB_API_URL;
   ibbApiKey: string = environment.ibbApiKey;
   eventFormSubmitAction: string = "";
-  eventFormApiResp: BehaviorSubject<ApiResp>;
+  eventApiResp!: ApiResp;
   event!: Event;
 
   constructor(
     private http: HttpClient,
     private userService: UserApiDbService,
   ) {
-    this.eventFormApiResp = new BehaviorSubject<ApiResp>({ status: false, message: '' });
-  }
-
-  onEventFormSubmit(eventForm: FormGroup, eventId: number) {
-    if (this.eventFormSubmitAction === 'add') {
-      this.registerEvent(eventForm)
-        .subscribe(
-          (resp: ApiResp) => { this.eventFormApiResp.next(resp) });
-    } else if (this.eventFormSubmitAction === 'update') {
-      this.updateEvent(eventId, eventForm)
-      .subscribe(
-        (resp: ApiResp) => { this.eventFormApiResp.next(resp), console.log(resp) });
-    }
-  }
-
-  getEventFormApiResp(): Observable<ApiResp> {
-    return this.eventFormApiResp.asObservable()
   }
 
   //get address options to fill form

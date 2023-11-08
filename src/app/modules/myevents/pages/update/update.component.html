@@ -4,4 +4,8 @@
     </p>
 </div>
 
-<app-shared-event-form [formTitle]="formTitle"></app-shared-event-form>
+<app-shared-event-form (submitForm)="onEventSubmit($event)" [formTitle]="formTitle"></app-shared-event-form>
+
+<popup-modal #popupModal (newPopupEvent)="getPopupValue($event)" [modalStyle]="modalStyle" [modalTitle]="modalTitle"
+    [modalBody]="modalBody" [modalButtonColor]="modalButtonColor">
+</popup-modal>

@@ -19,6 +19,7 @@ export class EventFormComponent implements OnInit{
 
   @Input() formTitle!: string;
   @ViewChild('imageInput')  imgInput!: HTMLInputElement;
+  @Output() submitForm = new EventEmitter<[number, FormGroup]>();
 
   todayDate: string = new Date().toISOString().slice(0, 10)
   eventForm: FormGroup;
@@ -79,7 +80,7 @@ export class EventFormComponent implements OnInit{
   onSubmit() {
     this.eventForm.get('user_id')?.setValue(this.userService.getUserId());
     if (this.eventForm.valid) {
-      this.eventDbApiService.onEventFormSubmit(this.eventForm, this.existingEventId);
+      this.submitForm.emit([this.existingEventId, this.eventForm]);
       this.eventForm.reset();
       this.chooseFileTouched = false;
       this.imgInput.value = '';

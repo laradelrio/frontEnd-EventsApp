@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiResp } from 'src/app/data/interfaces/interfaces.interface';
 import { EventDbApiService } from 'src/app/data/services/api/event-db-api.service';
@@ -15,7 +16,7 @@ export class AddComponent {
 
   modalStyle: string = '';
   modalTitle: string = '';
-  modalBody: string = 'Event Added ';
+  modalBody: string = '';
   modalButtonColor: string = '';
   formTitle: string = 'Add New Event';
 
@@ -25,15 +26,19 @@ export class AddComponent {
   ) { }
 
   ngOnInit(): void {
-    this.eventService.getEventFormApiResp()
-      .subscribe((resp) => this.setModalValues(resp));
+    this.eventService.eventFormSubmitAction = 'add';
+    this.modalTitle = 'Event Added '
+  }
 
-      this.eventService.eventFormSubmitAction = 'add';
-      this.modalTitle = 'Event Added '
+  onEventSubmit(eventInfo: [number, FormGroup]) {
+    this.eventService.registerEvent(eventInfo[1])
+      .subscribe(
+        (resp: ApiResp) => { this.setModalValues(resp) }
+      )
   }
 
 
-  setModalValues(resp: ApiResp){
+  setModalValues(resp: ApiResp) {
     this.modalStyle = (resp.status ? 'modal-style-success' : 'modal-style-danger');
     this.modalTitle += (resp.status ? 'Successfully' : 'Unsuccessfully');
     this.modalBody = resp.message;
@@ -46,7 +51,7 @@ export class AddComponent {
   }
 
   getPopupValue(value: any) {
-    this.router.navigate(['/myevents']);  
+    this.router.navigate(['/myevents']);
   }
 
   open() {
