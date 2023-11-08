@@ -54,6 +54,10 @@ const routes: Routes = [
         loadChildren: () => import('./modules/event/event.module').then((m): typeof EventModule => m.EventModule),
         canActivate: [authGuardGuard]
       },
+      {
+        path: '**',
+        redirectTo: 'home'
+      },
     ]
   },
   {
