@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiResp, Event } from 'src/app/data/interfaces/interfaces.interface';
+import { Event } from 'src/app/data/interfaces/interfaces.interface';
 import { EventDbApiService } from 'src/app/data/services/api/event-db-api.service';
 
 @Component({
@@ -8,7 +8,7 @@ import { EventDbApiService } from 'src/app/data/services/api/event-db-api.servic
   templateUrl: './event-card.component.html',
   styleUrls: ['./event-card.component.scss']
 })
-export class EventCardComponent implements OnInit {
+export class EventCardComponent {
 
   @Input('event') event!: Event;
   @Output() deleteEvent = new EventEmitter<number>();
@@ -25,13 +25,6 @@ export class EventCardComponent implements OnInit {
     
     private eventService: EventDbApiService,
   ) { }
-  ngOnInit(): void {
-    // this.img()
-  }
-
-  date() {
-    return (this.event.date).toString().slice(0, 10)
-  }
 
   time() {
     return (this.event.time).toString().slice(0, 5)

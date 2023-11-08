@@ -35,7 +35,7 @@ export class MyeventsComponent implements OnInit {
 
   getUserEvents() {
     this.eventService.getEventsByUser()
-      .subscribe((res) => this.eventsByUser = res.data)
+      .subscribe((res) => {this.eventsByUser = res.data, console.log(res.data)})
   }
 
   onDeleteEvent(eventId: number) {

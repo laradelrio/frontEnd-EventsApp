@@ -169,8 +169,7 @@ export class EventFormComponent implements OnInit{
     this.eventForm.get('user_id')?.setValue(`${event.user_id}`);
     this.eventForm.get('category')?.setValue(`${event.category}`);
     this.eventForm.get('description')?.setValue(`${event.description}`);
-    let date = (event.date).toString().slice(0, 10)
-    this.eventForm.get('date')?.setValue(date);
+    this.eventForm.get('date')?.setValue(event.date);
     this.eventForm.get('time')?.setValue(`${event.time}`);
     this.eventForm.get('address')?.setValue(`${event.address}`);
     this.eventForm.get('longitude')?.setValue(`${event.longitude}`);
