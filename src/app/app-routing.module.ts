@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { LoginComponent } from './modules/auth/pages/login/login.component';
-import { RegisterComponent } from './modules/auth/pages/register/register.component';
 import { authGuardGuard } from './shared/guards/auth-guard.guard';
 import { MainpageComponent } from './layout/mainpage/mainpage.component';
 import { HomeModule } from './modules/home/home.module';
@@ -55,8 +53,9 @@ const routes: Routes = [
         canActivate: [authGuardGuard]
       },
       {
-        path: '**',
-        redirectTo: 'home'
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full', 
       },
     ]
   },
