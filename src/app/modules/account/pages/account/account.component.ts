@@ -78,7 +78,7 @@ export class AccountComponent implements OnInit {
   }
 
   onDetailsEdit(): void {
-    this.modalBody = 'Account Details Updated '
+    this.modalTitle = 'Account Details Updated '
     this.isDetailsEditable = true;
     this.accountForm.enable()
   }
