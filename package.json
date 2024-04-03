@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "node -r dotenv/config mynode.js && ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -29,6 +29,7 @@
     "@popperjs/core": "^2.11.6",
     "bootstrap": "^5.2.3",
     "chart.js": "^4.4.0",
+    "dotenv": "^16.4.5",
     "fullcalendar": "^6.1.9",
     "jwt-decode": "^3.1.2",
     "mapbox-gl": "^2.15.0",
